@@ -26,7 +26,7 @@ def main():
                 for path_dir in path_dirs:
                     full_path = path_dir+'/'+user_input.split()[1]
                     print(full_path)
-                    break
+                
 
                 #     if os.path.isdir(path_dir) and os.path.isfile(full_path) and os.access(full_path, os.X_OK):
                 #         print(f"{user_input.split()[1]} is {full_path}")
@@ -36,7 +36,7 @@ def main():
                 # else:
                 #     print(f'{user_input.split()[1]}: not found')
 
-
+                break
         # Invalid input
         else:
             print(f"{user_input}: not found")
