@@ -1,23 +1,39 @@
 import sys
+import os
 
 BUILTINS_COMMANDS= {"exit", "echo", "type"}
 def main():
     while True:
         sys.stdout.write("$ ")
         user_input = input()
-        # parts=user_input.split()
-        # command=parts[0] if parts else ""
+        # command=user_input[0]
+        # parts = user_input[1:] if len(user_input) > 1 else ''
 
         if user_input == "exit":
             break
-        elif user_input.startswith('echo'):
+        elif user_input.startswith("echo"):
             print(user_input[5:])
 
-        elif user_input.startswith('type'):
+        elif user_input.startswith("type"):
             if user_input.split()[1] in BUILTINS_COMMANDS:
                 print(f"{user_input.split()[1]} is a shell builtin")
             else:
-                print(f'{user_input.split()[1]}: not found')
+                # splitting the directories
+                path_var=os.getenv('PATH','')
+                path_dirs=path_var.split(os.pathsep)
+                print(path_var)
+                break
+                # checking if the each directoy and file exist
+                # for path_dir in path_dirs:
+                #     full_path = path_dir+'/'+user_input.split()[1]
+
+                #     if os.path.isdir(path_dir) and os.path.isfile(full_path) and os.access(full_path, os.X_OK):
+                #         print(f"{user_input.split()[1]} is {full_path}")
+                #         break
+                #     else:
+                #         continue
+                # else:
+                #     print(f'{user_input.split()[1]}: not found')
 
 
         # Invalid input
