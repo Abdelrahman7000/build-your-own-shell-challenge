@@ -2,7 +2,6 @@ import sys
 import os
 
 BUILTINS_COMMANDS= {"exit", "echo", "type"}
-lis=[]
 def main():
     while True:
         sys.stdout.write("$ ")
@@ -23,10 +22,11 @@ def main():
                 path_var=os.getenv('PATH','')
                 path_dirs=path_var.split(os.pathsep)
                 
-                # checking if the each directoy and file exist
+                # Loop over the given directories
                 for path_dir in path_dirs:
                     full_path = path_dir+'/'+user_input.split()[1]
-                
+
+                    # check if both the directory and file exist
                     if os.path.isdir(path_dir) and os.path.isfile(full_path) and os.access(full_path, os.X_OK):
                         print(f"{user_input.split()[1]} is {full_path}")
                         break
