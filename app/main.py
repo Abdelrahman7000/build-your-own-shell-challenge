@@ -29,7 +29,6 @@ def main():
                 
                     if os.path.isdir(path_dir) and os.path.isfile(full_path) and os.access(full_path, os.X_OK):
                         print(f"{user_input.split()[1]} is {full_path}")
-                        print(path_dir)
                         break
                     else:
                         continue
