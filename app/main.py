@@ -15,9 +15,9 @@ def main():
                 print(f"{user_input.split()[1]} is a shell builtin")
             else:
                 print('invalid_command: not found')
-                
+
         else:
-            print(f"{user_input}: command not found")
+            print("invalid_command: not found")
 
 
 if __name__ == "__main__":
