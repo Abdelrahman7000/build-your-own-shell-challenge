@@ -19,7 +19,7 @@ def main():
 
         # Invalid input
         else:
-            print("invalid_command: not found")
+            print(f"{user_input}: not found")
 
 
 if __name__ == "__main__":
