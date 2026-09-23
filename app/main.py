@@ -13,7 +13,7 @@ def main():
         if command == "exit":
             break
         elif command == 'echo':
-            print(args[0])
+            print(' '.join(args))
 
         elif user_input.startswith("type"):
             if args[0] in BUILTINS_COMMANDS:
