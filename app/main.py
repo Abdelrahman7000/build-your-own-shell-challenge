@@ -62,9 +62,7 @@ def main():
             args.insert(0,command_path)
             if command_path:
                 result = subprocess.run(
-                            args,
-                            capture_output=True,
-                            text=True
+                            args
                         )
                 print(result)
             else:
