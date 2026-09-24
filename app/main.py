@@ -2,6 +2,23 @@ import sys
 import os
 
 BUILTINS_COMMANDS= {"exit", "echo", "type"}
+
+def find_path(target_command):
+    path_var=os.getenv('PATH','')
+    path_dirs=path_var.split(os.pathsep)
+
+    for path_dir in path_dirs:
+        full_path = path_dir+'/'+target_command
+        # check if both the directory and file exist
+        if os.path.isdir(path_dir) and os.path.isfile(full_path) and os.access(full_path, os.X_OK):
+            return full_path
+        else:
+            continue
+    else:
+        return None
+
+
+
 def main():
     while True:
         sys.stdout.write("$ ")
@@ -22,29 +39,30 @@ def main():
                 print(f"{args[0]} is a shell builtin")
             else:
                 # splitting the directories
-                path_var=os.getenv('PATH','')
-                path_dirs=path_var.split(os.pathsep)
+                # path_var=os.getenv('PATH','')
+                # path_dirs=path_var.split(os.pathsep)
                 
-                # Loop over the given directories
-                for path_dir in path_dirs:
-                    full_path = path_dir+'/'+args[0]
+                # # Loop over the given directories
+                # for path_dir in path_dirs:
+                #     full_path = path_dir+'/'+args[0]
 
-                    # check if both the directory and file exist
-                    if os.path.isdir(path_dir) and os.path.isfile(full_path) and os.access(full_path, os.X_OK):
-                        print(f"{args[0]} is {full_path}")
-                        break
-                    else:
-                        continue
+                #     # check if both the directory and file exist
+                #     if os.path.isdir(path_dir) and os.path.isfile(full_path) and os.access(full_path, os.X_OK):
+                resulted_path=find_path(args[0])
+                if resulted_path:
+                    print(f"{args[0]} is {resulted_path}")
                 else:
                     print(f'{args[0]}: not found')
 
             
         # Invalid input
         else:
-            e=os.getenv('PATH','')
-            print(e)
-            
-            #print(f"{user_input}: not found")
+            command_path=find_path(command)
+            if command_path:
+                print(command_path)
+
+            else:
+                print(f"{user_input}: not found")
 
 
 if __name__ == "__main__":
