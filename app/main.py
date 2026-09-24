@@ -38,6 +38,9 @@ def main():
 
         if command == "exit":
             break
+        elif command == 'pwd':
+            current_dir = os.getcwd()
+            print(current_dir)
         elif command == 'echo':
             print(' '.join(args))
 
