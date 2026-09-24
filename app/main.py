@@ -5,6 +5,12 @@ import subprocess
 BUILTINS_COMMANDS= {"exit", "echo", "type"}
 
 def find_path(target_command):
+    '''
+    Args:
+        target_command: str: the command to find in the PATH directories
+    Returns:
+        str: the full path of the command if found, None otherwise
+    '''
     path_var=os.getenv('PATH','')
     path_dirs=path_var.split(os.pathsep)
 
@@ -39,6 +45,7 @@ def main():
             if args[0] in BUILTINS_COMMANDS:
                 print(f"{args[0]} is a shell builtin")
             else:
+                # if the command is not a built-in command, we will search for it in the PATH directories
                 resulted_path=find_path(args[0])
                 if resulted_path:
                     print(f"{args[0]} is {resulted_path}")
@@ -46,17 +53,18 @@ def main():
                     print(f'{args[0]}: not found')
 
             
-        # Invalid input
+        # executing the command if it is not a built-in command or invalid command
         else:
+            # finding the command in the PATH directories
             command_path=find_path(command)
             args.insert(0,command)
             if command_path:
+                # executing the command using subprocess.run
                 subprocess.run(
                             args,
                             executable=command_path
-                        )
+            )
                 
-
             else:
                 print(f"{user_input}: not found")
 
