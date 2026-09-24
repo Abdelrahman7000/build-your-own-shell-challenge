@@ -41,7 +41,7 @@ def main():
             
         # Invalid input
         else:
-            e=path_var=os.getenv('PATH','')
+            e=os.getenv('PATH','')
             print(e)
             
             #print(f"{user_input}: not found")
