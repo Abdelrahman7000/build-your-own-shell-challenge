@@ -59,10 +59,11 @@ def main():
         # Invalid input
         else:
             command_path=find_path(command)
-            args.insert(0,command_path)
+            args.insert(0,command)
             if command_path:
                 result = subprocess.run(
-                            args
+                            args,
+                            executable=command_path
                         )
                 print(result)
             else:
