@@ -6,8 +6,10 @@ def main():
     while True:
         sys.stdout.write("$ ")
         user_input = input()
+        # splitting the user input into command and arguments
         parts=user_input.split()
         command=parts[0]
+        # getting the arguments
         args=parts[1:]
 
         if command == "exit":
@@ -39,7 +41,10 @@ def main():
             
         # Invalid input
         else:
-            print(f"{user_input}: not found")
+            e=path_var=os.getenv('PATH','')
+            print(e)
+            
+            #print(f"{user_input}: not found")
 
 
 if __name__ == "__main__":
