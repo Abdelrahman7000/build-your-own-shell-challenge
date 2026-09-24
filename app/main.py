@@ -61,11 +61,12 @@ def main():
             command_path=find_path(command)
             args.insert(0,command)
             if command_path:
-                result = subprocess.run(
+                subprocess.run(
                             args,
                             executable=command_path
                         )
-                print(result)
+                
+
             else:
                 print(f"{user_input}: not found")
 
