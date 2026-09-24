@@ -59,10 +59,10 @@ def main():
         # Invalid input
         else:
             command_path=find_path(command)
-            full_input=args.insert(0,command_path)
+            args.insert(0,command_path)
             if command_path:
                 result = subprocess.run(
-                            full_input,
+                            args,
                             capture_output=True,
                             text=True
                         )
