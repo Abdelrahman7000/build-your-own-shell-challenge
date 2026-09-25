@@ -16,6 +16,7 @@ def find_path(target_command):
 
     for path_dir in path_dirs:
         full_path = path_dir+'/'+target_command
+        #full_path = os.path.join(path_dir, target_command)
         # check if both the directory and file exist
         if os.path.isdir(path_dir) and os.path.isfile(full_path) and os.access(full_path, os.X_OK):
             return full_path
@@ -41,10 +42,15 @@ def main():
         elif command == 'pwd':
             print(os.getcwd())
         elif command == 'cd':
-            if args and os.path.isdir(args[0]):
-                os.chdir(args[0])
-            else:
-                print(f"cd: {args[0]}: No such file or directory")
+            # if args and os.path.isdir(args[0]):
+            #     os.chdir(args[0])
+            # else:
+            #     print(f"cd: {args[0]}: No such file or directory")
+            target_dir = args[0] if args else os.getenv("HOME", "/")
+            try:
+                os.chdir(target_dir)
+            except (FileNotFoundError, NotADirectoryError, PermissionError):
+                print(f"cd: {target_dir}: No such file or directory")
 
         elif command == 'echo':
             print(' '.join(args))
