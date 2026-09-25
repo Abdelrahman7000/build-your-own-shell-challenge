@@ -40,6 +40,16 @@ def main():
             break
         elif command == 'pwd':
             print(os.getcwd())
+        elif command == 'cd':
+            try:
+                if os.path.isdir(args[0]):
+                    os.chdir(args[0])
+                else:
+                    print(f"cd: {args[0]}: No such file or directory")
+            except:
+                print(f"cd: {args[0]}: No such file or directory")
+
+
         elif command == 'echo':
             print(' '.join(args))
 
