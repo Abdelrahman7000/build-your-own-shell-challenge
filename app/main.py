@@ -2,7 +2,7 @@ import sys
 import os
 import subprocess
 
-BUILTINS_COMMANDS= {"exit", "echo", "type","pwd"}
+BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd"}
 
 def find_path(target_command):
     '''
