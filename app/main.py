@@ -46,7 +46,11 @@ def main():
             #     os.chdir(args[0])
             # else:
             #     print(f"cd: {args[0]}: No such file or directory")
-            target_dir = args[0] if args else os.getenv("HOME", "/")
+            #target_dir = args[0] if args else os.getenv("HOME", "/")
+            if not args or args[0] == "~":
+                target_dir = os.getenv("HOME", "/")
+            else:
+                target_dir = args[0]
             try:
                 os.chdir(target_dir)
             except (FileNotFoundError, NotADirectoryError, PermissionError):
