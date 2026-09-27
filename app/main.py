@@ -57,51 +57,17 @@ def parse_input(user_input):
         res.append(temp)
 
     return command, res
-    # command=user_input.partition(" ")[0]
-    # args=user_input.partition(" ")[2]
-    # res=[]
-    # temp=''
-    # is_quoted,is_first_space=False,True
-    # for chr in args:
-    #     if chr!="'" and chr!=' ': 
-    #         temp+=chr
-    #         is_first_space=True
-    #     elif chr=="'" and is_quoted:
-    #         is_quoted=not is_quoted #False
-    #     elif chr=="'" and not is_quoted:
-    #         is_quoted=not is_quoted #True
-    #     elif chr==' ':
-    #         if is_quoted: 
-    #             temp+=' '
-    #         elif not is_quoted and is_first_space:
-    #             res.append(temp)
-    #             res.append(' ')
-    #             temp=''
-    #             is_first_space=not is_first_space #False
-    #         else: continue
-    # if temp:res.append(temp)
-    # return (command,res)
 
 def main():
     while True:
         sys.stdout.write("$ ")
         user_input = input()
-        # splitting the user input into command and arguments
-        # parts=user_input.split()
-        # command=parts[0]
-        # # getting the arguments
-        # args=parts[1:]
         command,args=parse_input(user_input)
         if command == "exit":
             break
         elif command == 'pwd':
             print(os.getcwd())
         elif command == 'cd':
-            # if args and os.path.isdir(args[0]):
-            #     os.chdir(args[0])
-            # else:
-            #     print(f"cd: {args[0]}: No such file or directory")
-            #target_dir = args[0] if args else os.getenv("HOME", "/")
             if not args or args[0] == "~":
                 target_dir = os.getenv("HOME", "/")
             else:
@@ -114,7 +80,7 @@ def main():
         elif command == 'echo':
             #print(' '.join(args))
             output=''.join(args)
-            output = output.replace("'", "")
+            #output = output.replace("'", "")
 
             print(output)
             
