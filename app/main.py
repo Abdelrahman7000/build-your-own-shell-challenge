@@ -25,18 +25,48 @@ def find_path(target_command):
     else:
         return None
 
-
+def parse_input(user_input):
+    '''
+    Args:
+        user_input: str: the input string from the user
+    Returns:
+        tuple: (command, args) where command is the command to execute and args is a list of arguments
+    '''
+    command=user_input.partition(" ")[0]
+    args=user_input.partition(" ")[2]
+    res=[]
+    temp=''
+    is_quoted,is_first_space=False,True
+    for chr in args:
+        if chr!="'" and chr!=' ': 
+            temp+=chr
+            is_first_space=True
+        elif chr=="'" and is_quoted:
+            is_quoted=False
+        elif chr=="'" and not is_quoted:
+            is_quoted=True
+        elif chr==' ':
+            if is_quoted: 
+                temp+=' '
+            elif not is_quoted and is_first_space:
+                res.append(temp)
+                res.append(' ')
+                temp=''
+                is_first_space=False
+            else: continue
+    if temp:res.append(temp)
+    return (command,res)
 
 def main():
     while True:
         sys.stdout.write("$ ")
         user_input = input()
         # splitting the user input into command and arguments
-        parts=user_input.split()
-        command=parts[0]
-        # getting the arguments
-        args=parts[1:]
-
+        # parts=user_input.split()
+        # command=parts[0]
+        # # getting the arguments
+        # args=parts[1:]
+        command,args=parse_input(user_input)
         if command == "exit":
             break
         elif command == 'pwd':
@@ -57,9 +87,13 @@ def main():
                 print(f"cd: {target_dir}: No such file or directory")
 
         elif command == 'echo':
-            print(' '.join(args))
+            #print(' '.join(args))
+            output=''.join(args)
+            output = output.replace("'", "")
 
-        elif user_input.startswith("type"):
+            print(output)
+            
+        elif command =="type":
             if args[0] in BUILTINS_COMMANDS:
                 print(f"{args[0]} is a shell builtin")
             else:
@@ -71,10 +105,12 @@ def main():
                     print(f'{args[0]}: not found')
 
             
-        # executing the command if it is not a built-in command or invalid command
+        # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
             # finding the command in the PATH directories
             command_path=find_path(command)
+            args=[arg for arg in args if arg != ' ']
+            # inserting the command at the beginning of the arguments list
             args.insert(0,command)
             if command_path:
                 # executing the command using subprocess.run
