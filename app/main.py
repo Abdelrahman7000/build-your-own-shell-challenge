@@ -78,10 +78,8 @@ def main():
                 print(f"cd: {target_dir}: No such file or directory")
 
         elif command == 'echo':
-            #print(' '.join(args))
             output=''.join(args)
             #output = output.replace("'", "")
-
             print(output)
             
         elif command =="type":
