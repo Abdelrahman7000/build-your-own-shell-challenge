@@ -39,7 +39,7 @@ def parse_input(user_input):
     is_first_space = True
 
     for char in args_str:
-        if char == "'" or char == '"':
+        if char == '"':
             is_quoted = not is_quoted
         elif char == ' ':
             if is_quoted:
