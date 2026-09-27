@@ -32,56 +32,30 @@ def parse_input(user_input):
     Returns:
         tuple: (command, args) where command is the command to execute and args is a list of arguments
     '''
-    tokens = []
-    temp = ""
-    in_quotes = False
-    in_token = False  # True when actively building an argument (even if temp is empty)
-
-    for char in user_input:
-        if char == "'":
-            in_quotes = not in_quotes
-            in_token = True  # Handles empty quotes like ''
-        elif char == " " and not in_quotes:
-            if in_token:
-                tokens.append(temp)
-                temp = ""
-                in_token = False
-        else:
-            temp += char
-            in_token = True
-
-    # Flush the last argument if input doesn't end with a space
-    if in_token:
-        tokens.append(temp)
-
-    if not tokens:
-        return "", []
-
-    return tokens[0], tokens[1:]
-    # command=user_input.partition(" ")[0]
-    # args=user_input.partition(" ")[2]
-    # res=[]
-    # temp=''
-    # is_quoted,is_first_space=False,True
-    # for chr in args:
-    #     if chr!="'" and chr!=' ': 
-    #         temp+=chr
-    #         is_first_space=True
-    #     elif chr=="'" and is_quoted:
-    #         is_quoted=False
-    #     elif chr=="'" and not is_quoted:
-    #         is_quoted=True
-    #     elif chr==' ':
-    #         if is_quoted: 
-    #             temp+=' '
-    #         elif not is_quoted and is_first_space:
-    #             res.append(temp)
-    #             res.append(' ')
-    #             temp=''
-    #             is_first_space=False
-    #         else: continue
-    # if temp:res.append(temp)
-    # return (command,res)
+    command=user_input.partition(" ")[0]
+    args=user_input.partition(" ")[2]
+    res=[]
+    temp=''
+    is_quoted,is_first_space=False,True
+    for chr in args:
+        if chr!="'" and chr!=' ': 
+            temp+=chr
+            is_first_space=True
+        elif chr=="'" and is_quoted:
+            is_quoted=not is_quoted #False
+        elif chr=="'" and not is_quoted:
+            is_quoted=not is_quoted #True
+        elif chr==' ':
+            if is_quoted: 
+                temp+=' '
+            elif not is_quoted and is_first_space:
+                res.append(temp)
+                res.append(' ')
+                temp=''
+                is_first_space=not is_first_space #False
+            else: continue
+    if temp:res.append(temp)
+    return (command,res)
 
 def main():
     while True:
