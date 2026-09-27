@@ -35,20 +35,35 @@ def parse_input(user_input):
     command, _, args_str = user_input.partition(" ")
     res = []
     temp = ''
-    is_quoted = False
+    active_quote = None  # Can be None, "'", or '"'
     is_first_space = True
 
     for char in args_str:
-        if char == "'":
-            is_quoted = not is_quoted
+        # Handle Single Quotes
+        if char == "'" and active_quote != '"':
+            if active_quote == "'":
+                active_quote = None  # Closing single quote
+            else:
+                active_quote = "'"   # Opening single quote
+                
+        # Handle Double Quotes
+        elif char == '"' and active_quote != "'":
+            if active_quote == '"':
+                active_quote = None  # Closing double quote
+            else:
+                active_quote = '"'   # Opening double quote
+                
+        # Handle Spaces
         elif char == ' ':
-            if is_quoted:
+            if active_quote is not None:
                 temp += ' '
             elif is_first_space:
                 res.append(temp)
                 res.append(' ')
                 temp = ''
                 is_first_space = False
+                
+        # Handle Regular Characters (and nested quotes)
         else:
             temp += char
             is_first_space = True
@@ -57,6 +72,31 @@ def parse_input(user_input):
         res.append(temp)
 
     return command, res
+    # command, _, args_str = user_input.partition(" ")
+    # res = []
+    # temp = ''
+    # is_quoted = False
+    # is_first_space = True
+
+    # for char in args_str:
+    #     if char == "'":
+    #         is_quoted = not is_quoted
+    #     elif char == ' ':
+    #         if is_quoted:
+    #             temp += ' '
+    #         elif is_first_space:
+    #             res.append(temp)
+    #             res.append(' ')
+    #             temp = ''
+    #             is_first_space = False
+    #     else:
+    #         temp += char
+    #         is_first_space = True
+
+    # if temp:
+    #     res.append(temp)
+
+    # return command, res
 
 def main():
     while True:
@@ -79,7 +119,7 @@ def main():
 
         elif command == 'echo':
             output=''.join(args)
-            #output = output.replace('"', "")
+            output = output.replace('"', "")
             print(output)
             
         elif command =="type":
