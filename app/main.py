@@ -39,7 +39,7 @@ def parse_input(user_input):
     is_first_space = True
 
     for char in args_str:
-        if char == "'":
+        if char == "'" or char == '"':
             is_quoted = not is_quoted
         elif char == ' ':
             if is_quoted:
@@ -79,7 +79,7 @@ def main():
 
         elif command == 'echo':
             output=''.join(args)
-            output = output.replace("'", "")
+            #output = output.replace("'", "")
             print(output)
             
         elif command =="type":
