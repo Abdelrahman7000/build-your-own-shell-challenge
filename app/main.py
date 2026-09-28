@@ -52,7 +52,7 @@ def parse_input(user_input):
                 temp += char  # Treat as a literal single quote
                 back_slash_active = False
 
-            if active_quote == "'":
+            elif active_quote == "'":
                 active_quote = None  # Closing single quote
             else:
                 active_quote = "'"   # Opening single quote
@@ -63,7 +63,7 @@ def parse_input(user_input):
                 temp += char  # Treat as a literal double quote
                 back_slash_active = False
 
-            if active_quote == '"':
+            elif active_quote == '"':
                 active_quote = None  # Closing double quote
             else:
                 active_quote = '"'   # Opening double quote
