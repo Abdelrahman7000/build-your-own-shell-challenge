@@ -37,10 +37,15 @@ def parse_input(user_input):
     temp = ''
     active_quote = None  # Can be None, "'", or '"'
     is_first_space = True
+    back_slash_active = False  # To handle escaped characters
 
     for char in args_str:
         # Handle Single Quotes
         if char == "'" and active_quote != '"':
+            if back_slash_active:
+                temp += char  # Treat as a literal single quote
+                back_slash_active = False
+
             if active_quote == "'":
                 active_quote = None  # Closing single quote
             else:
@@ -48,6 +53,10 @@ def parse_input(user_input):
                 
         # Handle Double Quotes
         elif char == '"' and active_quote != "'":
+            if back_slash_active:
+                temp += char  # Treat as a literal double quote
+                back_slash_active = False
+
             if active_quote == '"':
                 active_quote = None  # Closing double quote
             else:
@@ -55,6 +64,9 @@ def parse_input(user_input):
                 
         # Handle Spaces
         elif char == ' ':
+            if back_slash_active:
+                temp += char  # Treat as a literal space
+                back_slash_active = False
             if active_quote is not None:
                 temp += ' '
             elif is_first_space:
