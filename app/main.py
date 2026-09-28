@@ -136,21 +136,16 @@ def main():
         else:
             # finding the command in the PATH directories
             command_path=find_path(command)
-            #print(command_path)
+
             args=[arg for arg in args if arg != ' ']
             # inserting the command at the beginning of the arguments list
-            #print(args)
-            #print(args[2])
-            # if ' ' in args[0]:
-            #     args= args[0].split(' ')
-            # print(args)
             args.insert(0,command)
             if command_path:
                 # executing the command using subprocess.run
                 subprocess.run(
                             args,
                             executable=command_path
-            )
+                )
                 
             else:
                 print(f"{user_input}: not found")
