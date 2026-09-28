@@ -114,7 +114,7 @@ def main():
             output=''.join(args)
             output = output.replace('"', "")
             print(output)
-            print(args)
+            #print(args)
             
         elif command =="type":
             if args[0] in BUILTINS_COMMANDS:
