@@ -72,31 +72,6 @@ def parse_input(user_input):
         res.append(temp)
 
     return command, res
-    # command, _, args_str = user_input.partition(" ")
-    # res = []
-    # temp = ''
-    # is_quoted = False
-    # is_first_space = True
-
-    # for char in args_str:
-    #     if char == "'":
-    #         is_quoted = not is_quoted
-    #     elif char == ' ':
-    #         if is_quoted:
-    #             temp += ' '
-    #         elif is_first_space:
-    #             res.append(temp)
-    #             res.append(' ')
-    #             temp = ''
-    #             is_first_space = False
-    #     else:
-    #         temp += char
-    #         is_first_space = True
-
-    # if temp:
-    #     res.append(temp)
-
-    # return command, res
 
 def main():
     while True:
