@@ -113,8 +113,8 @@ def main():
         elif command == 'echo':
             output=''.join(args)
             output = output.replace('"', "")
-            #print(output)
-            print(args)
+            print(output)
+            #print(args)
             
         elif command =="type":
             if args[0] in BUILTINS_COMMANDS:
