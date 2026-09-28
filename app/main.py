@@ -15,8 +15,8 @@ def find_path(target_command):
     path_dirs=path_var.split(os.pathsep)
 
     for path_dir in path_dirs:
-        full_path = path_dir+'/'+target_command
-        #full_path = os.path.join(path_dir, target_command)
+        #full_path = path_dir+'/'+target_command
+        full_path = os.path.join(path_dir, target_command)
         # check if both the directory and file exist
         if os.path.isdir(path_dir) and os.path.isfile(full_path) and os.access(full_path, os.X_OK):
             return full_path
@@ -83,8 +83,12 @@ def parse_input(user_input):
                 
         # Handle Regular Characters (and nested quotes)
         else:
-            temp += char
-            is_first_space = True
+            if back_slash_active:
+                temp += char  # Treat as a literal space
+                back_slash_active = False
+            else:
+                temp += char
+                is_first_space = True
 
     if temp:
         res.append(temp)
@@ -132,8 +136,14 @@ def main():
         else:
             # finding the command in the PATH directories
             command_path=find_path(command)
+            #print(command_path)
             args=[arg for arg in args if arg != ' ']
             # inserting the command at the beginning of the arguments list
+            #print(args)
+            #print(args[2])
+            # if ' ' in args[0]:
+            #     args= args[0].split(' ')
+            # print(args)
             args.insert(0,command)
             if command_path:
                 # executing the command using subprocess.run
