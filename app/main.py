@@ -47,7 +47,7 @@ def parse_input(user_input):
                 back_slash_active = False
             else:
                 back_slash_active = True
-        if char == "'" and active_quote != '"':
+        elif char == "'" and active_quote != '"':
             if back_slash_active:
                 temp += char  # Treat as a literal single quote
                 back_slash_active = False
@@ -73,7 +73,7 @@ def parse_input(user_input):
             if back_slash_active:
                 temp += char  # Treat as a literal space
                 back_slash_active = False
-            if active_quote is not None:
+            elif active_quote is not None:
                 temp += ' '
             elif is_first_space:
                 res.append(temp)
