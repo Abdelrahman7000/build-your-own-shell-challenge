@@ -112,7 +112,7 @@ def main():
 
         elif command == 'echo':
             output=''.join(args)
-            output = output.replace('"', "")
+            #output = output.replace('"', "")
             print(output)
             #print(args)
             
