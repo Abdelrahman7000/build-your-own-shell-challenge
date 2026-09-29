@@ -34,14 +34,6 @@ def parse_input(user_input):
     Returns:
         tuple: (command, args) where command is the command to execute and args is a list of arguments
     '''
-    # if user_input[0]== "'" or user_input[0]== '"':    
-    #     command=""
-    #     i=1
-    #     while user_input[i]!=user_input[0]:
-    #             command+=user_input[i]
-    #             i+=1
-    #     args_str=user_input[i+2:]
-    # else:
     #     command, _, args_str = user_input.partition(" ")
 
     res = []
