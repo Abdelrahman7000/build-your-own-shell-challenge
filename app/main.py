@@ -101,12 +101,6 @@ def parse_input(user_input):
     args = res[1:]
     return command, args
 
-# def manage_output_redirection(output,args):
-#     if ">" in args or "1>" in args:
-#         with open(args[-1], "w") as f:
-#             f.write(output + "\n")
-#     else:
-#         print(output) 
 def parse_redirection(args):
     """
     Args:
@@ -127,6 +121,12 @@ def parse_redirection(args):
     return args, None
 
 def write_builtin_output(output, output_file):
+    '''
+    Args:
+        output: str: the output to write
+        output_file: str or None: the file to write to, or None to print to stdout
+
+    '''
     if output_file:
         with open(output_file, "w") as f:
             f.write(output + "\n")
@@ -139,8 +139,10 @@ def main():
     while True:
         sys.stdout.write("$ ")
         user_input = input()
+        # parse the user input into command and arguments
         command,args=parse_input(user_input)
-
+        
+        # parse the arguments to check for output redirection
         args, output_file = parse_redirection(args)
 
         if command == "exit":
@@ -161,29 +163,19 @@ def main():
                 print(f"cd: {target_dir}: No such file or directory")
 
         elif command == 'echo':
-            # if ">" in args or "1>" in args:
-            #     echo_output=" ".join(args[:-2])
-            # else:
-            #     echo_output=" ".join(args)
-            # #output = output.replace('"', "")
-            # manage_output_redirection(echo_output, args)
             output=" ".join(args)
             write_builtin_output(output, output_file)
             
             
         elif command =="type":
             if args[0] in BUILTINS_COMMANDS:
-                #print(f"{args[0]} is a shell builtin")
                 output=f"{args[0]} is a shell builtin"
-                #manage_output_redirection(type_output, args)
                 write_builtin_output(output, output_file)
             else:
                 # if the command is not a built-in command, we will search for it in the PATH directories
                 resulted_path=find_path(args[0])
                 if resulted_path:
-                    #print(f"{args[0]} is {resulted_path}")
                     output=f"{args[0]} is {resulted_path}"
-                    #manage_output_redirection(type_output, args)
                     write_builtin_output(output, output_file)
                 else:
                     print(f'{args[0]}: not found')
@@ -197,7 +189,7 @@ def main():
             if command_path:
                 # inserting the command at the beginning of the arguments list
                 args.insert(0, command)
-
+                # executing the command using subprocess.run and redirecting the output to a file if specified
                 if output_file:
                     with open(output_file, "w") as f:
                         subprocess.run(
@@ -205,6 +197,7 @@ def main():
                             executable=command_path,
                             stdout=f
                         )
+                # executing the command without output redirection
                 else:
                     subprocess.run(
                         args,
@@ -212,37 +205,8 @@ def main():
                     )
 
             else:
+                # command not found (unidentified command)
                 print(f"{user_input}: not found")
-            #------------------------------------------------------------------
-            #------------------------------------------------------------------
-            #------------------------------------------------------------------
-            # finding the command in the PATH directories
-            # command_path=find_path(command)
-            
-            # args=[arg for arg in args if arg != ' ']
-            # # inserting the command at the beginning of the arguments list
-            # args.insert(0,command)
-
-            # if command_path:
-            #     if args[-2] == '>' or args[-2]=='1>':
-            #         output_file_name=args.pop()
-            #         separator=args.pop()
-            #         with open(output_file_name, "w") as f:
-            #             # executing the command using subprocess.run
-            #             subprocess.run(
-            #                         args,
-            #                         executable=command_path,
-            #                         stdout=f
-
-            #             )
-            #     else:
-            #         subprocess.run(
-            #                         args,
-            #                         executable=command_path,
-            #                     )
-                
-            # else:
-            #     print(f"{user_input}: not found")
 
 
 
