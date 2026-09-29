@@ -143,20 +143,19 @@ def main():
         else:
             # finding the command in the PATH directories
             command_path=find_path(command)
-            print(command)
-            print(command_path)
-            # args=[arg for arg in args if arg != ' ']
-            # # inserting the command at the beginning of the arguments list
-            # args.insert(0,command)
-            # if command_path:
-            #     # executing the command using subprocess.run
-            #     subprocess.run(
-            #                 args,
-            #                 executable=command_path
-            #     )
+            
+            args=[arg for arg in args if arg != ' ']
+            # inserting the command at the beginning of the arguments list
+            args.insert(0,command)
+            if command_path:
+                # executing the command using subprocess.run
+                subprocess.run(
+                            args,
+                            executable=command_path
+                )
                 
-            # else:
-            #     print(f"{user_input}: not found")
+            else:
+                print(f"{user_input}: not found")
 
 
 if __name__ == "__main__":
