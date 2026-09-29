@@ -42,7 +42,7 @@ def parse_input(user_input):
     for char in args_str:
         # Handle Single Quotes
         if char == '\\':
-            if (back_slash_active and active_quote == '"') or active_quote=="'":
+            if (back_slash_active and active_quote == '"') or active_quote=="'" or (back_slash_active and active_quote is None):
                 temp += '\\'  # Treat as a literal backslash
                 back_slash_active = False
             else:
