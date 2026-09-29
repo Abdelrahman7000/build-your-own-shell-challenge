@@ -192,32 +192,59 @@ def main():
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
             # finding the command in the PATH directories
-            command_path=find_path(command)
-            
-            args=[arg for arg in args if arg != ' ']
-            # inserting the command at the beginning of the arguments list
-            args.insert(0,command)
+            command_path = find_path(command)
 
             if command_path:
-                if args[-2] == '>' or args[-2]=='1>':
-                    output_file_name=args.pop()
-                    separator=args.pop()
-                    with open(output_file_name, "w") as f:
-                        # executing the command using subprocess.run
-                        subprocess.run(
-                                    args,
-                                    executable=command_path,
-                                    stdout=f
+                # inserting the command at the beginning of the arguments list
+                args.insert(0, command)
 
+                if output_file:
+                    with open(output_file, "w") as f:
+                        subprocess.run(
+                            args,
+                            executable=command_path,
+                            stdout=f
                         )
                 else:
                     subprocess.run(
-                                    args,
-                                    executable=command_path,
-                                )
-                
+                        args,
+                        executable=command_path
+                    )
+
             else:
                 print(f"{user_input}: not found")
+            #------------------------------------------------------------------
+            #------------------------------------------------------------------
+            #------------------------------------------------------------------
+            # finding the command in the PATH directories
+            # command_path=find_path(command)
+            
+            # args=[arg for arg in args if arg != ' ']
+            # # inserting the command at the beginning of the arguments list
+            # args.insert(0,command)
+
+            # if command_path:
+            #     if args[-2] == '>' or args[-2]=='1>':
+            #         output_file_name=args.pop()
+            #         separator=args.pop()
+            #         with open(output_file_name, "w") as f:
+            #             # executing the command using subprocess.run
+            #             subprocess.run(
+            #                         args,
+            #                         executable=command_path,
+            #                         stdout=f
+
+            #             )
+            #     else:
+            #         subprocess.run(
+            #                         args,
+            #                         executable=command_path,
+            #                     )
+                
+            # else:
+            #     print(f"{user_input}: not found")
+
+
 
 
 if __name__ == "__main__":
