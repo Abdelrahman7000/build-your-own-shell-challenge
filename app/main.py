@@ -1,7 +1,7 @@
 import sys
 import os
 import subprocess
-import shlex
+
 
 
 BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd"}
@@ -101,6 +101,13 @@ def parse_input(user_input):
     args = res[1:]
     return command, args
 
+def manage_output_redirection(output,args):
+    if args[-2]=='>' or args[-2]=='1>':
+        with open(args[-1], "w") as f:
+            f.write(output)
+    else:
+        print(output) 
+
 def main():
     while True:
         sys.stdout.write("$ ")
@@ -109,7 +116,9 @@ def main():
         if command == "exit":
             break
         elif command == 'pwd':
-            print(os.getcwd())
+            pwd_output=os.getcwd()
+            manage_output_redirection(pwd_output, args)
+
         elif command == 'cd':
             if not args or args[0] == "~":
                 target_dir = os.getenv("HOME", "/")
@@ -121,19 +130,23 @@ def main():
                 print(f"cd: {target_dir}: No such file or directory")
 
         elif command == 'echo':
-            output=" ".join(args)
+            echo_output=" ".join(args)
             #output = output.replace('"', "")
-            print(output)
+            manage_output_redirection(echo_output, args)
             #print(args)
             
         elif command =="type":
             if args[0] in BUILTINS_COMMANDS:
-                print(f"{args[0]} is a shell builtin")
+                #print(f"{args[0]} is a shell builtin")
+                type_output=f"{args[0]} is a shell builtin"
+                manage_output_redirection(type_output, args)
             else:
                 # if the command is not a built-in command, we will search for it in the PATH directories
                 resulted_path=find_path(args[0])
                 if resulted_path:
-                    print(f"{args[0]} is {resulted_path}")
+                    #print(f"{args[0]} is {resulted_path}")
+                    type_output=f"{args[0]} is {resulted_path}"
+                    manage_output_redirection(type_output, args)
                 else:
                     print(f'{args[0]}: not found')
 
@@ -146,12 +159,24 @@ def main():
             args=[arg for arg in args if arg != ' ']
             # inserting the command at the beginning of the arguments list
             args.insert(0,command)
+
             if command_path:
-                # executing the command using subprocess.run
-                subprocess.run(
-                            args,
-                            executable=command_path
-                )
+                if args[-2] == '>' or args[-2]=='1>':
+                    output_file_name=args.pop()
+                    separator=args.pop()
+                    with open(output_file_name, "w") as f:
+                        # executing the command using subprocess.run
+                        subprocess.run(
+                                    args,
+                                    executable=command_path,
+                                    stdout=f
+
+                        )
+                else:
+                    subprocess.run(
+                                    args,
+                                    executable=command_path,
+                                )
                 
             else:
                 print(f"{user_input}: not found")
