@@ -1,6 +1,8 @@
 import sys
 import os
 import subprocess
+import shlex
+
 
 BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd"}
 
@@ -32,7 +34,10 @@ def parse_input(user_input):
     Returns:
         tuple: (command, args) where command is the command to execute and args is a list of arguments
     '''
-    command, _, args_str = user_input.partition(" ")
+    #command, _, args_str = user_input.partition(" ")
+    parts = shlex.split(user_input)
+    command=parts[0] if parts else ''
+    args_str = " ".join(parts[1:]) if len(parts) > 1 else ""
     res = []
     temp = ''
     active_quote = None  # Can be None, "'", or '"'
@@ -42,11 +47,13 @@ def parse_input(user_input):
     for char in args_str:
         # Handle Single Quotes
         if char == '\\':
+            # Handle backslash logic for escaping characters in quotes and outside quotes
             if (back_slash_active and active_quote == '"') or active_quote=="'" or (back_slash_active and active_quote is None):
                 temp += '\\'  # Treat as a literal backslash
                 back_slash_active = False
             else:
                 back_slash_active = True
+        # Handle Single Quotes        
         elif char == "'" and active_quote != '"':
             if back_slash_active:
                 temp += char  # Treat as a literal single quote
@@ -136,19 +143,20 @@ def main():
         else:
             # finding the command in the PATH directories
             command_path=find_path(command)
-
-            args=[arg for arg in args if arg != ' ']
-            # inserting the command at the beginning of the arguments list
-            args.insert(0,command)
-            if command_path:
-                # executing the command using subprocess.run
-                subprocess.run(
-                            args,
-                            executable=command_path
-                )
+            print(command)
+            print(command_path)
+            # args=[arg for arg in args if arg != ' ']
+            # # inserting the command at the beginning of the arguments list
+            # args.insert(0,command)
+            # if command_path:
+            #     # executing the command using subprocess.run
+            #     subprocess.run(
+            #                 args,
+            #                 executable=command_path
+            #     )
                 
-            else:
-                print(f"{user_input}: not found")
+            # else:
+            #     print(f"{user_input}: not found")
 
 
 if __name__ == "__main__":
