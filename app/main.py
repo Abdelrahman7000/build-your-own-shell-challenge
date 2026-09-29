@@ -50,7 +50,7 @@ def parse_input(user_input):
     is_first_space = True
     back_slash_active = False  # To handle escaped characters
 
-    for char in args_str:
+    for char in user_input:
         # Handle Single Quotes
         if char == '\\':
             # Handle backslash logic for escaping characters in quotes and outside quotes
