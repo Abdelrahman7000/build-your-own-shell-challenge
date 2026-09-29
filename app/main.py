@@ -101,23 +101,54 @@ def parse_input(user_input):
     args = res[1:]
     return command, args
 
-def manage_output_redirection(output,args):
-    if ">" in args or "1>" in args:
-        with open(args[-1], "w") as f:
+# def manage_output_redirection(output,args):
+#     if ">" in args or "1>" in args:
+#         with open(args[-1], "w") as f:
+#             f.write(output + "\n")
+#     else:
+#         print(output) 
+def parse_redirection(args):
+    """
+    Args:
+        args: list of command arguments
+    Returns:
+        cleaned_args: arguments without redirection
+        output_file: filename or None
+    """
+
+    if ">" in args:
+        index = args.index(">")
+        return args[:index], args[index + 1]
+
+    if "1>" in args:
+        index = args.index("1>")
+        return args[:index], args[index + 1]
+
+    return args, None
+
+def write_builtin_output(output, output_file):
+    if output_file:
+        with open(output_file, "w") as f:
             f.write(output + "\n")
     else:
-        print(output) 
+        print(output)
+
+
 
 def main():
     while True:
         sys.stdout.write("$ ")
         user_input = input()
         command,args=parse_input(user_input)
+
+        args, output_file = parse_redirection(args)
+
         if command == "exit":
             break
         elif command == 'pwd':
-            pwd_output=os.getcwd()
-            manage_output_redirection(pwd_output, args)
+            output=os.getcwd()
+            #manage_output_redirection(pwd_output, args)
+            write_builtin_output(output, output_file)
 
         elif command == 'cd':
             if not args or args[0] == "~":
@@ -130,26 +161,30 @@ def main():
                 print(f"cd: {target_dir}: No such file or directory")
 
         elif command == 'echo':
-            if ">" in args or "1>" in args:
-                echo_output=" ".join(args[:-2])
-            else:
-                echo_output=" ".join(args)
-            #output = output.replace('"', "")
-            manage_output_redirection(echo_output, args)
-            #print(args)
+            # if ">" in args or "1>" in args:
+            #     echo_output=" ".join(args[:-2])
+            # else:
+            #     echo_output=" ".join(args)
+            # #output = output.replace('"', "")
+            # manage_output_redirection(echo_output, args)
+            output=" ".join(args)
+            write_builtin_output(output, output_file)
+            
             
         elif command =="type":
             if args[0] in BUILTINS_COMMANDS:
                 #print(f"{args[0]} is a shell builtin")
-                type_output=f"{args[0]} is a shell builtin"
-                manage_output_redirection(type_output, args)
+                output=f"{args[0]} is a shell builtin"
+                #manage_output_redirection(type_output, args)
+                write_builtin_output(output, output_file)
             else:
                 # if the command is not a built-in command, we will search for it in the PATH directories
                 resulted_path=find_path(args[0])
                 if resulted_path:
                     #print(f"{args[0]} is {resulted_path}")
-                    type_output=f"{args[0]} is {resulted_path}"
-                    manage_output_redirection(type_output, args)
+                    output=f"{args[0]} is {resulted_path}"
+                    #manage_output_redirection(type_output, args)
+                    write_builtin_output(output, output_file)
                 else:
                     print(f'{args[0]}: not found')
 
