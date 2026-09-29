@@ -104,7 +104,7 @@ def parse_input(user_input):
 def manage_output_redirection(output,args):
     if args[-2]=='>' or args[-2]=='1>':
         with open(args[-1], "w") as f:
-            f.write(output)
+            f.write(output + "\n")
     else:
         print(output) 
 
