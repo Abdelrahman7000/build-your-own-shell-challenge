@@ -42,7 +42,7 @@ def parse_input(user_input):
     for char in args_str:
         # Handle Single Quotes
         if char == '\\':
-            if back_slash_active or active_quote:
+            if (back_slash_active and active_quote == '"') or active_quote=="'":
                 temp += '\\'  # Treat as a literal backslash
                 back_slash_active = False
             else:
@@ -115,7 +115,7 @@ def main():
                 print(f"cd: {target_dir}: No such file or directory")
 
         elif command == 'echo':
-            output=''.join(args)
+            output="".join(args)
             #output = output.replace('"', "")
             print(output)
             #print(args)
