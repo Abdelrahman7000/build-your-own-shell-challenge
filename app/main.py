@@ -90,7 +90,7 @@ def parse_input(user_input):
                 temp += ' '
             elif is_first_space:
                 res.append(temp)
-                #res.append(' ')
+                res.append(' ')
                 temp = ''
                 is_first_space = False
                 
@@ -129,7 +129,7 @@ def main():
                 print(f"cd: {target_dir}: No such file or directory")
 
         elif command == 'echo':
-            output="".join(args)
+            output=" ".join(args)
             #output = output.replace('"', "")
             print(output)
             #print(args)
