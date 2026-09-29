@@ -34,10 +34,16 @@ def parse_input(user_input):
     Returns:
         tuple: (command, args) where command is the command to execute and args is a list of arguments
     '''
-    #command, _, args_str = user_input.partition(" ")
-    parts = shlex.split(user_input)
-    command=parts[0] if parts else ''
-    args_str = " ".join(parts[1:]) if len(parts) > 1 else ""
+    if user_input[0]== "'" or user_input[0]== '"':    
+        command=""
+        i=1
+        while user_input[i]!=user_input[0]:
+                command+=user_input[i]
+                i+=1
+        args_str=user_input[i+2:]
+    else:
+        command, _, args_str = user_input.partition(" ")
+
     res = []
     temp = ''
     active_quote = None  # Can be None, "'", or '"'
