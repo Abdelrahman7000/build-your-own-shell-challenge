@@ -102,7 +102,7 @@ def parse_input(user_input):
     return command, args
 
 def manage_output_redirection(output,args):
-    if args[-2]=='>' or args[-2]=='1>':
+    if ">" in args or "1>" in args:
         with open(args[-1], "w") as f:
             f.write(output + "\n")
     else:
@@ -130,7 +130,7 @@ def main():
                 print(f"cd: {target_dir}: No such file or directory")
 
         elif command == 'echo':
-            if args[-2]=='>' or args[-2]=='1>':
+            if ">" in args or "1>" in args:
                 echo_output=" ".join(args[:-2])
             else:
                 echo_output=" ".join(args)
