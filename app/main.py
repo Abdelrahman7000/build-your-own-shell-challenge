@@ -90,7 +90,7 @@ def parse_input(user_input):
                 temp += ' '
             elif is_first_space:
                 res.append(temp)
-                res.append(' ')
+                #res.append(' ')
                 temp = ''
                 is_first_space = False
                 
