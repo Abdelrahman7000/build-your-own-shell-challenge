@@ -130,7 +130,10 @@ def main():
                 print(f"cd: {target_dir}: No such file or directory")
 
         elif command == 'echo':
-            echo_output=" ".join(args)
+            if args[-2]=='>' or args[-2]=='1>':
+                echo_output=" ".join(args[:-2])
+            else:
+                echo_output=" ".join(args)
             #output = output.replace('"', "")
             manage_output_redirection(echo_output, args)
             #print(args)
