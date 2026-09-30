@@ -152,7 +152,10 @@ def main():
             break
         elif command == 'pwd':
             output=os.getcwd()
-            write_builtin_output(output, output_file)
+            if redirect_symbol=="2>":
+                write_builtin_output(output, None)
+            else:
+                write_builtin_output(output, output_file)
 
         elif command == 'cd':
             if not args or args[0] == "~":
@@ -166,21 +169,33 @@ def main():
 
         elif command == 'echo':
             output=" ".join(args)
-            write_builtin_output(output, output_file)
+            if redirect_symbol=="2>":
+                write_builtin_output(output, None)
+            else:
+                write_builtin_output(output, output_file)
             
             
         elif command =="type":
             if args[0] in BUILTINS_COMMANDS:
                 output=f"{args[0]} is a shell builtin"
-                write_builtin_output(output, output_file)
+                if redirect_symbol=="2>":
+                    write_builtin_output(output,None)
+                else:
+                    write_builtin_output(output, output_file)
             else:
                 # if the command is not a built-in command, we will search for it in the PATH directories
                 resulted_path=find_path(args[0])
                 if resulted_path:
                     output=f"{args[0]} is {resulted_path}"
-                    write_builtin_output(output, output_file)
+                    if redirect_symbol=="2>":
+                        write_builtin_output(output, None)
+                    else:
+                        write_builtin_output(output,output_file)
                 else:
-                    print(f'{args[0]}: not found')
+                    if redirect_symbol=="2>":
+                        write_builtin_output(output,output_file)
+                    else:
+                        print(f'{args[0]}: not found')
 
             
         # executing the command if it is not a built-in command (external command/program) or invalid command
