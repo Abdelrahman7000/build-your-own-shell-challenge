@@ -247,7 +247,7 @@ def main():
                 if output_file and redirect_symbol == "2>":
                     write_builtin_output(output,output_file)
                 else:
-                    write_builtin_output(output,output_file,flag=True)
+                    write_builtin_output(output,output_file)
 
 
 
