@@ -120,19 +120,27 @@ def parse_redirection(args):
     if "2>" in args:
             index = args.index("2>")
             return args[:index], args[index + 1], args[index] # return the arguments before "2>", the filename after "2>", and the "2>" symbol itself
+    if "1>>" in args or ">>" in args:
+            index = args.index("1>>") if "1>>" in args else args.index(">>")
+            return args[:index], args[index + 1], args[index]
     
     return args, None, None # No redirection found
 
-def write_stdout(output, output_file=None):
+def write_stdout(output, output_file=None,redirect_symbol=None):
     """
     Args:
         output: str: the output to write
         output_file: str or None: the file to write to, or None to print to stdout
+        redirect_symbol: str or None: the redirection symbol (">", "1>", "2>") or None
     """
     if output_file:
-        # create the file if it doesn't exist, or overwrite it 
-        with open(output_file, "w") as f:
-            f.write(output + "\n")
+        # create the file if it doesn't exist, overwrite it, or append it
+        if redirect_symbol in (">", "1>"): 
+            with open(output_file, "w") as f:
+                f.write(output + "\n")
+        else:  # "1>>" or ">>"
+            with open(output_file, "a") as f:
+                f.write(output + "\n")
     else:
         print(output)
 
@@ -163,7 +171,7 @@ def handle_builtin_output(output, redirect_symbol, output_file):
 
         print(output)
     else:
-        write_stdout(output, output_file)
+        write_stdout(output, output_file,redirect_symbol)
 
 def handle_builtin_error(error,redirect_symbol, output_file):
     """
@@ -206,7 +214,7 @@ def main():
                 #print(f"cd: {target_dir}: No such file or directory")
                 error=f"cd: {target_dir}: No such file or directory"
                 handle_builtin_error(error, redirect_symbol, output_file)
-                
+
         elif command == 'echo':
             output=" ".join(args)
             handle_builtin_output(output, redirect_symbol, output_file)
@@ -244,8 +252,15 @@ def main():
                             executable=command_path,
                             stderr=f
                         )
-                elif output_file:
+                elif output_file and redirect_symbol in {">", "1>"}:
                     with open(output_file, "w") as f:
+                        subprocess.run(
+                            args,
+                            executable=command_path,
+                            stdout=f
+                        )
+                elif output_file and redirect_symbol in {"1>>", ">>"}:
+                    with open(output_file, "a") as f:
                         subprocess.run(
                             args,
                             executable=command_path,
