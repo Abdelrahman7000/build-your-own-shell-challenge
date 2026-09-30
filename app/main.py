@@ -123,14 +123,18 @@ def parse_redirection(args):
     
     return args, None, None # No redirection found
 
-def write_builtin_output(output, output_file):
+def write_builtin_output(output, output_file,flag=False):
     '''
     Args:
         output: str: the output to write
         output_file: str or None: the file to write to, or None to print to stdout
 
     '''
-    if output_file:
+    if flag:
+        with open(output_file, "w") as f:
+                pass
+        print(output)
+    elif output_file:
         with open(output_file, "w") as f:
             f.write(output + "\n")
     else:
@@ -153,7 +157,7 @@ def main():
         elif command == 'pwd':
             output=os.getcwd()
             if redirect_symbol=="2>":
-                write_builtin_output(output, None)
+                write_builtin_output(output, output_file,flag=True)
             else:
                 write_builtin_output(output, output_file)
 
@@ -170,7 +174,7 @@ def main():
         elif command == 'echo':
             output=" ".join(args)
             if redirect_symbol=="2>":
-                write_builtin_output(output, None)
+                write_builtin_output(output, output_file,flag=True)
             else:
                 write_builtin_output(output, output_file)
             
@@ -179,7 +183,7 @@ def main():
             if args[0] in BUILTINS_COMMANDS:
                 output=f"{args[0]} is a shell builtin"
                 if redirect_symbol=="2>":
-                    write_builtin_output(output,None)
+                    write_builtin_output(output,output_file,flag=True)
                 else:
                     write_builtin_output(output, output_file)
             else:
@@ -188,14 +192,16 @@ def main():
                 if resulted_path:
                     output=f"{args[0]} is {resulted_path}"
                     if redirect_symbol=="2>":
-                        write_builtin_output(output, None)
+                        write_builtin_output(output, output_file,flag=True)
                     else:
                         write_builtin_output(output,output_file)
+                # if the command is not found in the PATH directories, we will print an error message
                 else:
+                    output=f'{args[0]}: not found'
                     if redirect_symbol=="2>":
                         write_builtin_output(output,output_file)
                     else:
-                        print(f'{args[0]}: not found')
+                        write_builtin_output(output,output_file)
 
             
         # executing the command if it is not a built-in command (external command/program) or invalid command
@@ -224,13 +230,24 @@ def main():
                 # executing the command without output redirection
                 else:
                     subprocess.run(
-                        args,
-                        executable=command_path
+                            args,
+                            executable=command_path
                     )
+                    # with open(output_file, "w") as f:
+                    #     subprocess.run(
+                    #         args,
+                    #         executable=command_path,
+                    #         stdout=f
+                    #     )
+
 
             else:
                 # command not found (unidentified command)
-                print(f"{user_input}: not found")
+                output=f"{user_input}: not found"
+                if output_file and redirect_symbol == "2>":
+                    write_builtin_output(output,output_file)
+                else:
+                    write_builtin_output(output,output_file,flag=True)
 
 
 
