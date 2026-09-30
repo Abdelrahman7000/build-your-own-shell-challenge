@@ -112,13 +112,16 @@ def parse_redirection(args):
 
     if ">" in args:
         index = args.index(">")
-        return args[:index], args[index + 1]
+        return args[:index], args[index + 1], args[index] # return the arguments before ">", the filename after ">", and the ">" symbol itself
 
     if "1>" in args:
         index = args.index("1>")
-        return args[:index], args[index + 1]
-
-    return args, None
+        return args[:index], args[index + 1], args[index] # return the arguments before "1>", the filename after "1>", and the "1>" symbol itself
+    if "2>" in args:
+            index = args.index("2>")
+            return args[:index], args[index + 1], args[index] # return the arguments before "2>", the filename after "2>", and the "2>" symbol itself
+    
+    return args, None, None # No redirection found
 
 def write_builtin_output(output, output_file):
     '''
@@ -143,13 +146,12 @@ def main():
         command,args=parse_input(user_input)
         
         # parse the arguments to check for output redirection
-        args, output_file = parse_redirection(args)
+        args, output_file, redirect_symbol = parse_redirection(args)
 
         if command == "exit":
             break
         elif command == 'pwd':
             output=os.getcwd()
-            #manage_output_redirection(pwd_output, args)
             write_builtin_output(output, output_file)
 
         elif command == 'cd':
@@ -190,7 +192,14 @@ def main():
                 # inserting the command at the beginning of the arguments list
                 args.insert(0, command)
                 # executing the command using subprocess.run and redirecting the output to a file if specified
-                if output_file:
+                if output_file and redirect_symbol == "2>":
+                    with open(output_file, "w") as f:
+                        subprocess.run(
+                            args,
+                            executable=command_path,
+                            stderr=f
+                        )
+                elif output_file:
                     with open(output_file, "w") as f:
                         subprocess.run(
                             args,
