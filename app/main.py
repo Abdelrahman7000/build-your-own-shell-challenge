@@ -203,8 +203,10 @@ def main():
             try:
                 os.chdir(target_dir)
             except (FileNotFoundError, NotADirectoryError, PermissionError):
-                print(f"cd: {target_dir}: No such file or directory")
-
+                #print(f"cd: {target_dir}: No such file or directory")
+                error=f"cd: {target_dir}: No such file or directory"
+                handle_builtin_error(error, redirect_symbol, output_file)
+                
         elif command == 'echo':
             output=" ".join(args)
             handle_builtin_output(output, redirect_symbol, output_file)
@@ -231,7 +233,7 @@ def main():
             # finding the command in the PATH directories
             command_path = find_path(command)
 
-            if command_path:
+            if command_path: # if the command is found in the PATH directories
                 # inserting the command at the beginning of the arguments list
                 args.insert(0, command)
                 # executing the command using subprocess.run and redirecting the output to a file if specified
@@ -255,12 +257,6 @@ def main():
                             args,
                             executable=command_path
                     )
-                    # with open(output_file, "w") as f:
-                    #     subprocess.run(
-                    #         args,
-                    #         executable=command_path,
-                    #         stdout=f
-                    #     )
 
 
             else:
