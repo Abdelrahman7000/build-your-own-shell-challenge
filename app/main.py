@@ -126,7 +126,7 @@ def parse_redirection(args):
     
     return args, None, None # No redirection found
 
-def write_stdout(output, output_file=None,redirect_symbol=None):
+def write_stdout(output, redirect_symbol=None, output_file=None):
     """
     Args:
         output: str: the output to write
@@ -171,7 +171,7 @@ def handle_builtin_output(output, redirect_symbol, output_file):
 
         print(output)
     else:
-        write_stdout(output, output_file,redirect_symbol)
+        write_stdout(output, redirect_symbol,output_file)
 
 def handle_builtin_error(error,redirect_symbol, output_file):
     """
@@ -273,9 +273,8 @@ def main():
                             executable=command_path
                     )
 
-
+            # command not found (unidentified command)
             else:
-                # command not found (unidentified command)
                 output=f"{user_input}: not found"
                 handle_builtin_error(output, redirect_symbol, output_file)
 
