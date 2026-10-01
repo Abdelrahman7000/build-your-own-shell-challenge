@@ -124,8 +124,8 @@ def parse_redirection(args):
             index = args.index("1>>") if "1>>" in args else args.index(">>")
             return args[:index], args[index + 1], args[index]
     if "2>>" in args:
-                index = args.index("2>>") 
-                return args[:index], args[index + 1], args[index]
+            index = args.index("2>>") 
+            return args[:index], args[index + 1], args[index]
     
     return args, None, None # No redirection found
 
@@ -172,7 +172,7 @@ def handle_builtin_output(output, redirect_symbol, output_file):
         output_file: str or None: the file to write to, or None to print to stdout
     """
 
-    if redirect_symbol == "2>":
+    if redirect_symbol in {"2>","2>>"}:
         # 2> does not affect stdout. But we will still create an empty file if specified
         open(output_file, "w").close()
 
