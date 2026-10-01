@@ -108,6 +108,7 @@ def parse_redirection(args):
     Returns:
         cleaned_args: arguments without redirection
         output_file: filename or None
+        redirect_symbol: redirection symbol or None
     """
     redirections = {">", "1>", ">>", "1>>", "2>", "2>>"}
 
@@ -115,26 +116,8 @@ def parse_redirection(args):
         if rediriction in redirections:
             return args[:i], args[i + 1], rediriction # return the arguments before the redirection symbol, the filename after the redirection symbol, and the redirection symbol itself
 
-    return args, None, None
+    return args, None, None # No redirection found
 
-    # if ">" in args:
-    #     index = args.index(">")
-    #     return args[:index], args[index + 1], args[index] # return the arguments before ">", the filename after ">", and the ">" symbol itself
-
-    # if "1>" in args:
-    #     index = args.index("1>")
-    #     return args[:index], args[index + 1], args[index] # return the arguments before "1>", the filename after "1>", and the "1>" symbol itself
-    # if "2>" in args:
-    #         index = args.index("2>")
-    #         return args[:index], args[index + 1], args[index] # return the arguments before "2>", the filename after "2>", and the "2>" symbol itself
-    # if "1>>" in args or ">>" in args:
-    #         index = args.index("1>>") if "1>>" in args else args.index(">>")
-    #         return args[:index], args[index + 1], args[index]
-    # if "2>>" in args:
-    #         index = args.index("2>>") 
-    #         return args[:index], args[index + 1], args[index]
-    
-    #return args, None, None # No redirection found
 
 def write_stdout(output, redirect_symbol=None, output_file=None):
     """
