@@ -145,15 +145,19 @@ def write_stdout(output, redirect_symbol=None, output_file=None):
         print(output)
 
 
-def write_stderr(output, error_file=None):
+def write_stderr(output, redirect_symbol=None, error_file=None):
     """
     Args:
         output: str: the output to write
         error_file: str or None: the file to write to, or None to print to stderr
     """
     if error_file:
-        with open(error_file, "w") as f:
-            f.write(output + "\n")
+        if redirect_symbol == "2>":
+            with open(error_file, "w") as f:
+                f.write(output + "\n")
+        else: # "2>>"
+            with open(error_file, "a") as f:
+                f.write(output + "\n")
     else:
         print(output, file=sys.stderr)
 
@@ -182,10 +186,10 @@ def handle_builtin_error(error,redirect_symbol, output_file):
     """
     if redirect_symbol == "2>":
         # write the error message to the specified file
-        write_stderr(error, output_file)
+        write_stderr(error, redirect_symbol, output_file)
     else:
         # write the error message to stderr
-        write_stderr(error, output_file)
+        write_stderr(error, redirect_symbol, output_file)
 
 def main():
     while True:
