@@ -123,6 +123,9 @@ def parse_redirection(args):
     if "1>>" in args or ">>" in args:
             index = args.index("1>>") if "1>>" in args else args.index(">>")
             return args[:index], args[index + 1], args[index]
+    if "2>>" in args:
+                index = args.index("2>>") 
+                return args[:index], args[index + 1], args[index]
     
     return args, None, None # No redirection found
 
