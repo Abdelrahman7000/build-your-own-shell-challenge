@@ -256,6 +256,13 @@ def main():
                             executable=command_path,
                             stderr=f
                         )
+                elif output_file and redirect_symbol == "2>>":
+                    with open(output_file, "a") as f:
+                        subprocess.run(
+                            args,
+                            executable=command_path,
+                            stderr=f
+                        )
                 elif output_file and redirect_symbol in {">", "1>"}:
                     with open(output_file, "w") as f:
                         subprocess.run(
