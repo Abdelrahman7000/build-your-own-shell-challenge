@@ -167,9 +167,10 @@ def completer(text, state):
         return matches[state]
 
     return None
-readline.set_completer(completer)
 
 def main():
+    readline.set_completer(completer)
+
     while True:
         sys.stdout.write("$ ")
         user_input = input()
