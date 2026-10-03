@@ -6,7 +6,7 @@ import readline
 
 
 BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd"}
-AUTO_COMPLETE_COMMANDS={"exit","echo"}
+AUTO_COMPLETE_COMMANDS=["exit","echo"]
 
 def find_path(target_command):
     '''
