@@ -161,7 +161,10 @@ def write_stderr(error, redirect_symbol=None, error_file=None):
         print(error, file=sys.stderr)
 
 def completer(text, state):
-    matches = [cmd for cmd in AUTO_COMPLETE_COMMANDS if cmd.startswith(text)]
+    matches = [
+        cmd for cmd in AUTO_COMPLETE_COMMANDS
+        if cmd.startswith(text)
+    ]
 
     if state < len(matches):
         return matches[state]
@@ -169,8 +172,11 @@ def completer(text, state):
     return None
 
 def main():
+    #readline.set_completer(completer)
     readline.set_completer(completer)
 
+    # Make TAB triggers completion
+    readline.parse_and_bind("tab: complete")
     while True:
         sys.stdout.write("$ ")
         user_input = input()
