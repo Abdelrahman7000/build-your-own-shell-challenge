@@ -161,18 +161,20 @@ def write_stderr(error, redirect_symbol=None, error_file=None):
         print(error, file=sys.stderr)
 
 def completer(text, state):
-    matches = [
-        cmd for cmd in AUTO_COMPLETE_COMMANDS
-        if cmd.startswith(text)
-    ]
-
-    if state < len(matches):
+    '''
+    Args:
+        text: str: the current input text to complete
+        state: int: the state of the completion (0 for the first match, 1 for the second, etc.)
+    Returns:
+        str or None: the next possible completion for the input text, or None if no more completions are available
+    '''
+    matches = [ cmd for cmd in AUTO_COMPLETE_COMMANDS if cmd.startswith(text) ]
+    if state < len(matches):# if there are still matches left to return, return the next match with a space appended
         return matches[state] + " "
-
     return None
 
 def main():
-    #readline.set_completer(completer)
+    # Set up the readline completer
     readline.set_completer(completer)
 
     # Make TAB triggers completion
