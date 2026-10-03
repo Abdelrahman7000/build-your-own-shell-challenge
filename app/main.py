@@ -167,7 +167,7 @@ def completer(text, state):
     ]
 
     if state < len(matches):
-        return matches[state]
+        return matches[state] + " "
 
     return None
 
