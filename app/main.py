@@ -119,70 +119,99 @@ def parse_redirection(args):
     return args, None, None # No redirection found
 
 
+# def write_stdout(output, redirect_symbol=None, output_file=None):
+#     """
+#     Args:
+#         output: str: the output to write
+#         output_file: str or None: the file to write to, or None to print to stdout
+#         redirect_symbol: str or None: the redirection symbol (">", "1>", "2>") or None
+#     """
+#     if output_file:
+#         # create the file if it doesn't exist, overwrite it, or append it
+#         if redirect_symbol in (">", "1>"): 
+#             with open(output_file, "w") as f:
+#                 f.write(output + "\n")
+#         else:  # "1>>" or ">>"
+#             with open(output_file, "a") as f:
+#                 f.write(output + "\n")
+#     else:
+#         print(output)
+
+
+# def write_stderr(output, redirect_symbol=None, error_file=None):
+#     """
+#     Args:
+#         output: str: the output to write
+#         error_file: str or None: the file to write to, or None to print to stderr
+#     """
+#     if error_file:
+#         if redirect_symbol == "2>":
+#             with open(error_file, "w") as f:
+#                 f.write(output + "\n")
+#         else: # "2>>"
+#             with open(error_file, "a") as f:
+#                 f.write(output + "\n")
+#     else:
+#         print(output, file=sys.stderr)
+
+# def handle_builtin_output(output, redirect_symbol, output_file):
+#     """
+#     Args:
+#         output: str: the output to write
+#         redirect_symbol: str or None: the redirection symbol (">", "1>", "2>") or None
+#         output_file: str or None: the file to write to, or None to print to stdout
+#     """
+
+#     if redirect_symbol in {"2>","2>>"}:
+#         # 2> does not affect stdout. But we will still create an empty file if specified
+#         open(output_file, "w").close()
+
+#         print(output)
+#     else:
+#         write_stdout(output, redirect_symbol,output_file)
+
+# def handle_builtin_error(error,redirect_symbol, output_file):
+#     """
+#     Args:
+#         error: str: the error message to write
+#         redirect_symbol: str or None: the redirection symbol (">", "1>", "2>") or None
+#         output_file: str or None: the file to write to, or None to print to stdout
+#     """
+#     if redirect_symbol == "2>":
+#         # write the error message to the specified file
+#         write_stderr(error, redirect_symbol, output_file)
+#     else:
+#         # write the error message to stderr
+#         write_stderr(error, redirect_symbol, output_file)
+
 def write_stdout(output, redirect_symbol=None, output_file=None):
-    """
-    Args:
-        output: str: the output to write
-        output_file: str or None: the file to write to, or None to print to stdout
-        redirect_symbol: str or None: the redirection symbol (">", "1>", "2>") or None
-    """
-    if output_file:
-        # create the file if it doesn't exist, overwrite it, or append it
-        if redirect_symbol in (">", "1>"): 
-            with open(output_file, "w") as f:
-                f.write(output + "\n")
-        else:  # "1>>" or ">>"
-            with open(output_file, "a") as f:
-                f.write(output + "\n")
-    else:
-        print(output)
-
-
-def write_stderr(output, redirect_symbol=None, error_file=None):
-    """
-    Args:
-        output: str: the output to write
-        error_file: str or None: the file to write to, or None to print to stderr
-    """
-    if error_file:
+    if redirect_symbol in {">", "1>"}:
+        with open(output_file, "w") as f:
+            f.write(output + "\n")
+    elif redirect_symbol in {">>", "1>>"}:
+        with open(output_file, "a") as f:
+            f.write(output + "\n")
+    elif redirect_symbol in {"2>", "2>>"}:
+        # stderr is redirected, stdout remains unchanged
         if redirect_symbol == "2>":
-            with open(error_file, "w") as f:
-                f.write(output + "\n")
-        else: # "2>>"
-            with open(error_file, "a") as f:
-                f.write(output + "\n")
-    else:
-        print(output, file=sys.stderr)
-
-def handle_builtin_output(output, redirect_symbol, output_file):
-    """
-    Args:
-        output: str: the output to write
-        redirect_symbol: str or None: the redirection symbol (">", "1>", "2>") or None
-        output_file: str or None: the file to write to, or None to print to stdout
-    """
-
-    if redirect_symbol in {"2>","2>>"}:
-        # 2> does not affect stdout. But we will still create an empty file if specified
-        open(output_file, "w").close()
-
+            open(output_file, "w").close()
+        else:
+            open(output_file, "a").close()
         print(output)
     else:
-        write_stdout(output, redirect_symbol,output_file)
+        print(output)
 
-def handle_builtin_error(error,redirect_symbol, output_file):
-    """
-    Args:
-        error: str: the error message to write
-        redirect_symbol: str or None: the redirection symbol (">", "1>", "2>") or None
-        output_file: str or None: the file to write to, or None to print to stdout
-    """
+def write_stderr(error, redirect_symbol=None, error_file=None):
     if redirect_symbol == "2>":
-        # write the error message to the specified file
-        write_stderr(error, redirect_symbol, output_file)
+        with open(error_file, "w") as f:
+            f.write(error + "\n")
+    elif redirect_symbol == "2>>":
+        with open(error_file, "a") as f:
+            f.write(error + "\n")
     else:
-        # write the error message to stderr
-        write_stderr(error, redirect_symbol, output_file)
+        print(error, file=sys.stderr)
+
+
 
 def main():
     while True:
@@ -198,7 +227,8 @@ def main():
             break
         elif command == 'pwd':
             output=os.getcwd()
-            handle_builtin_output(output, redirect_symbol, output_file)
+            #handle_builtin_output(output, redirect_symbol, output_file)
+            write_stdout(output,redirect_symbol,output_file)
 
         elif command == 'cd':
             if not args or args[0] == "~":
@@ -210,28 +240,31 @@ def main():
             except (FileNotFoundError, NotADirectoryError, PermissionError):
                 #print(f"cd: {target_dir}: No such file or directory")
                 error=f"cd: {target_dir}: No such file or directory"
-                handle_builtin_error(error, redirect_symbol, output_file)
+                #handle_builtin_error(error, redirect_symbol, output_file)
+                write_stderr(error, redirect_symbol, output_file)
 
         elif command == 'echo':
             output=" ".join(args)
-            handle_builtin_output(output, redirect_symbol, output_file)
-            
+            #handle_builtin_output(output, redirect_symbol, output_file)
+            write_stdout(output,redirect_symbol,output_file)
             
         elif command =="type":
             if args[0] in BUILTINS_COMMANDS:
                 output=f"{args[0]} is a shell builtin"
-                handle_builtin_output(output, redirect_symbol, output_file)
+                #handle_builtin_output(output, redirect_symbol, output_file)
+                write_stdout(output, redirect_symbol, output_file)
             else:
                 # if the command is not a built-in command, we will search for it in the PATH directories
                 resulted_path=find_path(args[0])
                 if resulted_path:
                     output=f"{args[0]} is {resulted_path}"
-                    handle_builtin_output(output, redirect_symbol, output_file)
+                    #handle_builtin_output(output, redirect_symbol, output_file)
+                    write_stdout(output, redirect_symbol, output_file)
                 # if the command is not found in the PATH directories, we will print an error message
                 else:
                     output=f'{args[0]}: not found'
-                    handle_builtin_error(output, redirect_symbol, output_file)
-
+                    #handle_builtin_error(output, redirect_symbol, output_file)
+                    write_stderr(output, redirect_symbol, output_file)
             
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
@@ -280,8 +313,8 @@ def main():
             # command not found (unidentified command)
             else:
                 output=f"{user_input}: not found"
-                handle_builtin_error(output, redirect_symbol, output_file)
-
+                #handle_builtin_error(output, redirect_symbol, output_file)
+                write_stderr(output, redirect_symbol, output_file)
 
 
 
