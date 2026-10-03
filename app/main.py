@@ -1,10 +1,12 @@
 import sys
 import os
 import subprocess
+import readline
 
 
 
 BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd"}
+AUTO_COMPLETE_COMMANDS={"exit","echo"}
 
 def find_path(target_command):
     '''
@@ -158,7 +160,14 @@ def write_stderr(error, redirect_symbol=None, error_file=None):
     else:
         print(error, file=sys.stderr)
 
+def completer(text, state):
+    matches = [cmd for cmd in AUTO_COMPLETE_COMMANDS if cmd.startswith(text)]
 
+    if state < len(matches):
+        return matches[state]
+
+    return None
+readline.set_completer(completer)
 
 def main():
     while True:
