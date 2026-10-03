@@ -6,7 +6,7 @@ import readline
 
 
 BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd"}
-AUTO_COMPLETE_COMMANDS=["exit","echo"]
+AUTO_COMPLETE_COMMANDS=["exit","echo","cd","type"]
 
 def find_path(target_command):
     '''
@@ -191,8 +191,9 @@ def update_auto_complete_commands():
                 AUTO_COMPLETE_COMMANDS.append(file)
 
 def main():
+    # Update the auto-complete commands list with executables from the PATH directories
     update_auto_complete_commands()
-    
+
     # Set up the readline completer
     readline.set_completer(completer)
 
