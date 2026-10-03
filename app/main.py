@@ -200,8 +200,8 @@ def main():
     # Make TAB triggers completion
     readline.parse_and_bind("tab: complete")
     while True:
-        sys.stdout.write("$ ")
-        user_input = input()
+        #sys.stdout.write("$ ")
+        user_input = input("$ ")
         # parse the user input into command and arguments
         command,args=parse_input(user_input)
         
