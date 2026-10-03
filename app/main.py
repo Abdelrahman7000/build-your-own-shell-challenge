@@ -173,7 +173,26 @@ def completer(text, state):
         return matches[state] + " "
     return None
 
+def update_auto_complete_commands():
+    '''
+    Args:
+        new_command: str: the new command to add to the auto-complete list
+    '''
+    path_var=os.getenv('PATH','')
+    path_dirs=path_var.split(os.pathsep)
+    for path_dir in path_dirs:
+        try:
+            files=os.listdir(path_dir)
+        except:
+            continue 
+        for file in files:
+            full_path=os.path.join(path_dir, file)
+            if os.access(full_path,os.X_OK):
+                AUTO_COMPLETE_COMMANDS.append(file)
+
 def main():
+    update_auto_complete_commands()
+    
     # Set up the readline completer
     readline.set_completer(completer)
 
