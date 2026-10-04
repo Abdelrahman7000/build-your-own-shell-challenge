@@ -2,10 +2,10 @@
 import os
 import subprocess
 import readline
-from input_parser import *
+from input_parser import parse_input, parse_redirection
 from path_checker import find_path
-from output_handler import *
-from autocompleter import *
+from output_handler import write_stdout, write_stderr
+from autocompleter import completer, update_auto_complete_commands, AUTO_COMPLETE_COMMANDS
 
 
 BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd"}
