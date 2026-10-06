@@ -17,9 +17,9 @@ def main():
 
     # Set up the readline completer
     readline.set_completer(completer)
+    readline.set_completer_delims(readline.get_completer_delims().replace("-", ""))
 
-    print("DELIMS:", repr(readline.get_completer_delims()))
-
+    #print("DELIMS:", repr(readline.get_completer_delims()))
     # Make TAB triggers completion
     readline.parse_and_bind("tab: complete")
     while True:
