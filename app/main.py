@@ -17,6 +17,7 @@ def main():
 
     # Set up the readline completer
     readline.set_completer(completer)
+    # Set the delimiters for word boundaries in the completer to include "-" as part of words and not to separate the word based on it. This allows for auto-completion of commands and filenames that contain hyphens.
     readline.set_completer_delims(readline.get_completer_delims().replace("-", ""))
 
     #print("DELIMS:", repr(readline.get_completer_delims()))
