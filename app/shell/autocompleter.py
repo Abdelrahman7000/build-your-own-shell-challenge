@@ -17,7 +17,7 @@ def completer(text, state):
     if ' ' in buffer: # filename completion
         matches = [filename for filename in os.listdir(".") if filename.startswith(text)]
         if state <len(matches):
-             return matches[state]+" "
+             return matches[state][5:]+" "
         return None
     
     else:# command completion
