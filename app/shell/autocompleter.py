@@ -15,6 +15,8 @@ def completer(text, state):
     buffer = readline.get_line_buffer()
 
     if ' ' in buffer: # filename completion
+        print("TEXT:", repr(text))
+        print("MATCHES:", matches)
         matches = [filename for filename in os.listdir(".") if filename.startswith(text)]
         if state <len(matches):
              return matches[state][5:]+" "
