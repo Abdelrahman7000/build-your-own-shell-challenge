@@ -15,7 +15,12 @@ def completer(text, state):
     buffer = readline.get_line_buffer()
 
     if ' ' in buffer: # filename completion
-        matches = [filename for filename in os.listdir(".") if filename.startswith(text)]
+        if '/' in buffer:
+            directory_path=buffer.split()[1].rsplit("/", 1)[0]+'/'
+            file_prefix=buffer.split()[1].rsplit("/", 1)[1]
+            matches=[filename for filename in os.listdir(directory_path) if filename.startswith(file_prefix)]
+        else:
+            matches = [filename for filename in os.listdir(".") if filename.startswith(text)]
         if state <len(matches):
             return matches[state] + " "
         return None
