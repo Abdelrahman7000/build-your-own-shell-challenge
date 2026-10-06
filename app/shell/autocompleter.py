@@ -19,7 +19,7 @@ def completer(text, state):
         # print("TEXT:", repr(text))
         print("MATCHES:", matches)
         if state <len(matches):
-            return matches[state] + " " #matches[state][len(text):]+" "
+            return matches[0] + " " #matches[state][len(text):]+" "
              
         return None
     
