@@ -19,8 +19,8 @@ def completer(text, state):
         # print("TEXT:", repr(text))
         # print("MATCHES:", matches)
         if state <len(matches):
-             #return matches[state][len(text):]+" "
-             return text + matches[state][len(text):] + " "
+            return matches[state][len(text):]+" "
+             
         return None
     
     else:# command completion
