@@ -1,4 +1,5 @@
 import os
+import readline
 
 AUTO_COMPLETE_COMMANDS=["exit","echo","cd","type"]
 
@@ -10,10 +11,21 @@ def completer(text, state):
     Returns:
         str or None: the next possible completion for the input text, or None if no more completions are available
     '''
-    matches = [ cmd for cmd in AUTO_COMPLETE_COMMANDS if cmd.startswith(text) ]
-    if state < len(matches):# if there are still matches left to return, return the next match with a space appended
-        return matches[state] + " "
-    return None
+    buffer = readline.get_line_buffer()
+    if ' ' in buffer: # filename completion
+        matches = [filename for filename in os.listdir(".") if filename.startswith(text)]
+        if state <len(matches):
+             return matches[state]+" "
+        return None
+    else:# command completion
+        matches = [cmd for cmd in AUTO_COMPLETE_COMMANDS if cmd.startswith(text)]
+        if state < len(matches):
+            return matches[state] + " "
+        return None
+    # matches = [ cmd for cmd in AUTO_COMPLETE_COMMANDS if cmd.startswith(text) ]
+    # if state < len(matches):# if there are still matches left to return, return the next match with a space appended
+    #     return matches[state] + " "
+    # return None
 
 def update_auto_complete_commands():
     '''
