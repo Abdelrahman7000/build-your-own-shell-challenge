@@ -16,11 +16,11 @@ def completer(text, state):
 
     if ' ' in buffer: # filename completion
         matches = [filename for filename in os.listdir(".") if filename.startswith(text)]
-        print("TEXT:", repr(text))
-        print("MATCHES:", matches)
-        # if state <len(matches):
-        #      return matches[state][5:]+" "
-        # return None
+        # print("TEXT:", repr(text))
+        # print("MATCHES:", matches)
+        if state <len(matches):
+             return matches[state][len(text):]+" "
+        return None
     
     else:# command completion
         matches = [cmd for cmd in AUTO_COMPLETE_COMMANDS if cmd.startswith(text)]
