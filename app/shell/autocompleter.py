@@ -3,6 +3,43 @@ import readline
 
 AUTO_COMPLETE_COMMANDS=["exit","echo","cd","type"]
 
+# def completer(text, state):
+#     '''
+#     Args:
+#         text: str: the current input text to complete
+#         state: int: the state of the completion (0 for the first match, 1 for the second, etc.)
+#     Returns:
+#         str or None: the next possible completion for the input text, or None if no more completions are available
+#     '''
+#     # Get the current line buffer to determine if we are completing a command or a filename
+#     buffer = readline.get_line_buffer()
+
+#     if ' ' in buffer: #filename or directory completion
+#         directory_path = ""
+#         if '/' in buffer: 
+#             # If the buffer contains a '/', we assume the user is trying to complete a file or directory path. 
+#             # We split the buffer to get the directory path and the file prefix, then list the files & directories in that directory and 
+#             # filter them based on the prefix.
+
+#             directory_path=buffer.split()[1].rsplit("/", 1)[0]+'/'
+#             entry_prefix=buffer.split()[1].rsplit("/", 1)[1]
+#             matches=[filename for filename in os.listdir(directory_path) if filename.startswith(entry_prefix)]
+#         else:
+#             # If the buffer does not contain a '/', we assume the user is trying to complete a filename or directory in the current directory.
+#             matches = [filename for filename in os.listdir(".") if filename.startswith(text)]
+#         if state <len(matches):
+#             if os.path.isdir(directory_path+matches[state]):
+#                 return matches[state]+"/"
+#             else:
+#                 return matches[state] + " "
+#         return None
+    
+#     else:# command completion
+#         matches = [cmd for cmd in AUTO_COMPLETE_COMMANDS if cmd.startswith(text)]
+#         if state < len(matches):
+#             return matches[state] + " "
+#         return None
+
 def completer(text, state):
     '''
     Args:
@@ -11,34 +48,58 @@ def completer(text, state):
     Returns:
         str or None: the next possible completion for the input text, or None if no more completions are available
     '''
-    # Get the current line buffer to determine if we are completing a command or a filename
     buffer = readline.get_line_buffer()
 
-    if ' ' in buffer: #filename or directory completion
-        directory_path = ""
-        if '/' in buffer: 
-            # If the buffer contains a '/', we assume the user is trying to complete a file or directory path. 
-            # We split the buffer to get the directory path and the file prefix, then list the files & directories in that directory and 
-            # filter them based on the prefix.
+    if ' ' in buffer:  # filename or directory completion
 
-            directory_path=buffer.split()[1].rsplit("/", 1)[0]+'/'
-            entry_prefix=buffer.split()[1].rsplit("/", 1)[1]
-            matches=[filename for filename in os.listdir(directory_path) if filename.startswith(entry_prefix)]
+        # Get the argument that is currently being completed
+        current_argument = buffer.rsplit(" ", 1)[1]
+
+        if '/' in current_argument:
+            # The current argument contains a path.
+            # Separate the directory path from the prefix being completed.
+            directory_path = current_argument.rsplit("/", 1)[0] + '/'
+            file_prefix = current_argument.rsplit("/", 1)[1]
+
+            matches = [
+                filename
+                for filename in os.listdir(directory_path)
+                if filename.startswith(file_prefix)
+            ]
+
         else:
-            # If the buffer does not contain a '/', we assume the user is trying to complete a filename or directory in the current directory.
-            matches = [filename for filename in os.listdir(".") if filename.startswith(text)]
-        if state <len(matches):
-            if os.path.isdir(directory_path+matches[state]):
-                return matches[state]+"/"
+            # The current argument does not contain a path,
+            # so search in the current working directory.
+            directory_path = ""
+            file_prefix = current_argument
+
+            matches = [
+                filename
+                for filename in os.listdir(".")
+                if filename.startswith(file_prefix)
+            ]
+
+        if state < len(matches):
+            match = matches[state]
+
+            if os.path.isdir(directory_path + match):
+                return match + "/"
             else:
-                return matches[state] + " "
+                return match + " "
+
         return None
-    
-    else:# command completion
-        matches = [cmd for cmd in AUTO_COMPLETE_COMMANDS if cmd.startswith(text)]
+
+    else:  # command completion
+        matches = [
+            cmd for cmd in AUTO_COMPLETE_COMMANDS
+            if cmd.startswith(text)
+        ]
+
         if state < len(matches):
             return matches[state] + " "
+
         return None
+
 
 def update_auto_complete_commands():
     '''
