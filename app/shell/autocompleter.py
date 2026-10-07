@@ -28,7 +28,7 @@ def completer(text, state):
             # If the buffer does not contain a '/', we assume the user is trying to complete a filename in the current directory.
             matches = [filename for filename in os.listdir(".") if filename.startswith(text)]
         if state <len(matches):
-            if os.listdir(directory_path+matches[state]):
+            if os.path.isdir(directory_path+matches[state]):
                 return matches[state]+"/"
             else:
                 return matches[state] + " "
