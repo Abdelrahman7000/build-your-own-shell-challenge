@@ -14,11 +14,13 @@ def completer(text, state):
     # Get the current line buffer to determine if we are completing a command or a filename
     buffer = readline.get_line_buffer()
 
-    if ' ' in buffer: #filename completion
+    if ' ' in buffer: #filename or directory completion
+        directory_path = ""
         if '/' in buffer: 
             # If the buffer contains a '/', we assume the user is trying to complete a file path. 
             # We split the buffer to get the directory path and the file prefix, then list the files in that directory and 
             # filter them based on the prefix.
+
             directory_path=buffer.split()[1].rsplit("/", 1)[0]+'/'
             file_prefix=buffer.split()[1].rsplit("/", 1)[1]
             matches=[filename for filename in os.listdir(directory_path) if filename.startswith(file_prefix)]
@@ -26,7 +28,10 @@ def completer(text, state):
             # If the buffer does not contain a '/', we assume the user is trying to complete a filename in the current directory.
             matches = [filename for filename in os.listdir(".") if filename.startswith(text)]
         if state <len(matches):
-            return matches[state] + " "
+            if os.listdir(directory_path+matches[state]):
+                return matches[state]+"/"
+            else:
+                return matches[state] + " "
         return None
     
     else:# command completion
