@@ -15,7 +15,7 @@ def completer(text, state):
     buffer = readline.get_line_buffer()
 
     if ' ' in buffer: #filename or directory completion
-        directory_path = "."
+        directory_path = ""
         if '/' in buffer: 
             # If the buffer contains a '/', we assume the user is trying to complete a file path. 
             # We split the buffer to get the directory path and the file prefix, then list the files in that directory and 
