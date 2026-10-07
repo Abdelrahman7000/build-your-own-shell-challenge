@@ -22,8 +22,8 @@ def completer(text, state):
             # filter them based on the prefix.
 
             directory_path=buffer.split()[1].rsplit("/", 1)[0]+'/'
-            file_prefix=buffer.split()[1].rsplit("/", 1)[1]
-            matches=[filename for filename in os.listdir(directory_path) if filename.startswith(file_prefix)]
+            entry_prefix=buffer.split()[1].rsplit("/", 1)[1]
+            matches=[filename for filename in os.listdir(directory_path) if filename.startswith(entry_prefix)]
         else:
             # If the buffer does not contain a '/', we assume the user is trying to complete a filename or directory in the current directory.
             matches = [filename for filename in os.listdir(".") if filename.startswith(text)]
