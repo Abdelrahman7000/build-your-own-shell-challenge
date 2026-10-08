@@ -9,7 +9,7 @@ from app.shell.autocompleter import completer, update_auto_complete_commands, AU
 
 
 BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd","complete"}
-
+COMPLETE_DISPLAY_COMMANDS = {}
 
 def main():
     # Update the auto-complete commands list with executables from the PATH directories
@@ -69,10 +69,11 @@ def main():
                     write_stderr(output, redirect_symbol, output_file)
 
         elif command == "complete":
-            if args and args[0]=='-p':
-                print(f'complete: {args[1]}: no completion specification')
-            
 
+            # if args and args[0]=='-p':
+            #     print(f'complete: {args[1]}: no completion specification')
+            #if args and args[0]=='-p':
+            print(args)
             
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
