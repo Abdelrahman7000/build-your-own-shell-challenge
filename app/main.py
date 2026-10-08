@@ -67,6 +67,11 @@ def main():
                 else:
                     output=f'{args[0]}: not found'
                     write_stderr(output, redirect_symbol, output_file)
+
+        elif command == "complete":
+            print(args)
+            print()
+
             
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
