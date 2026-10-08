@@ -73,7 +73,7 @@ def main():
             # if args and args[0]=='-p':
             #     print(f'complete: {args[1]}: no completion specification')
             if args and len(args)>2 and args[0]=='-C':
-                COMPLETE_DISPLAY_COMMANDS[args[2]]=command+' '.join(args)
+                COMPLETE_DISPLAY_COMMANDS[args[2]]=f"{command} {args[0]} '{args[1]}' {args[2]}"
             elif args and len(args)>1 and args[0]=='-p':
                 print(COMPLETE_DISPLAY_COMMANDS[args[1]])
 
