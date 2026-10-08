@@ -8,7 +8,7 @@ from app.shell.output_handler import write_stdout, write_stderr
 from app.shell.autocompleter import completer, update_auto_complete_commands, AUTO_COMPLETE_COMMANDS
 
 
-BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd"}
+BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd","complete"}
 
 
 def main():
