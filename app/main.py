@@ -69,11 +69,12 @@ def main():
                     write_stderr(output, redirect_symbol, output_file)
 
         elif command == "complete":
-
+            print(command+' ' +' '.join(args))
             # if args and args[0]=='-p':
             #     print(f'complete: {args[1]}: no completion specification')
-            #if args and args[0]=='-p':
-            print(args)
+            # if args and len(args)>2 and args[0]=='-C':
+            #     COMPLETE_DISPLAY_COMMANDS[args[2]]=command+' '.join(args)
+            # print(args)
             
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
