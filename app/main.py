@@ -74,9 +74,10 @@ def main():
             #     print(f'complete: {args[1]}: no completion specification')
             if args and len(args)>2 and args[0]=='-C':
                 COMPLETE_DISPLAY_COMMANDS[args[2]]=f"{command} {args[0]} '{args[1]}' {args[2]}"
-            elif args and len(args)>1 and args[0]=='-p':
+            elif args and len(args)>1 and args[0]=='-p' and args[1] in COMPLETE_DISPLAY_COMMANDS:
                 print(COMPLETE_DISPLAY_COMMANDS[args[1]])
-
+            else:
+                print(f'complete: {args[1]}: no completion specification')
             
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
