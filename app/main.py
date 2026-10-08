@@ -69,7 +69,7 @@ def main():
                     write_stderr(output, redirect_symbol, output_file)
 
         elif command == "complete":
-            if '-p' in args:
+            if args and args[0]=='-p':
                 print(f'complete: {args[1]}: no completion specification')
             
 
