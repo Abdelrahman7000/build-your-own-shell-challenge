@@ -68,23 +68,22 @@ def main():
                     output=f'{args[0]}: not found'
                     write_stderr(output, redirect_symbol, output_file)
 
-        elif command == "complete":
+        elif command == "complete": # handling the "complete" command for auto-completion specifications
+            # if the command is "complete", we will check if the arguments are valid and update the COMPLETE_DISPLAY_COMMANDS dictionary accordingly
+            if len(args)>=3 and args[0]=='-C': 
+                target_command=args[2]
+                completer_path=args[1]
+                COMPLETE_DISPLAY_COMMANDS[target_command]= completer_path
 
-            # if args and args[0]=='-p':
-            #     print(f'complete: {args[1]}: no completion specification')
-            if len(args)>=3 and args[0]=='-C':
-                #COMPLETE_DISPLAY_COMMANDS[args[2]]=f"{command} {args[0]} '{args[1]}' {args[2]}"
-
-                COMPLETE_DISPLAY_COMMANDS[args[2]]=args[1]
-
+            # if the command is "complete -p", we will check if the target command has a completion specification and print it accordingly
             elif len(args)>=2 and args[0]=='-p':
                 target_command=args[1]
-                if args[1] in COMPLETE_DISPLAY_COMMANDS:
-
-                    print(f"complete -C '{COMPLETE_DISPLAY_COMMANDS[args[1]]}' {target_command}")
+                if target_command in COMPLETE_DISPLAY_COMMANDS:
+                    completer_path=COMPLETE_DISPLAY_COMMANDS[target_command]
+                    print(f"complete -C '{completer_path}' {target_command}")
 
                 else:
-                    print(f'complete: {args[1]}: no completion specification')
+                    print(f'complete: {target_command}: no completion specification')
             
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
