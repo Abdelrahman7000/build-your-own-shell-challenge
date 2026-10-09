@@ -74,7 +74,7 @@ def completer(text, state):
                     text=True,
                     check=True
                     )
-            return result.strip('\n').stdout+' '
+            return result.stdout.strip('\n')+' '
 
         else:
             # The current argument does not contain a path,
