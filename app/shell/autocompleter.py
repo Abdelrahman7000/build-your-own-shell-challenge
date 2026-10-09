@@ -71,15 +71,17 @@ def completer(text, state):
             matches = [filename for filename in os.listdir(directory_path) if filename.startswith(file_prefix)]
 
         elif command in COMPLETE_DISPLAY_COMMANDS:
-            command_path=COMPLETE_DISPLAY_COMMANDS[command] 
-            result = subprocess.run(
-                    [command_path],
-                    capture_output=True,
-                    text=True,
-                    check=True
-                    )
-            print(f"DEBUG: stdout={result.stdout!r}", file=sys.stderr)
-            return result.stdout.strip('\n')+' '
+            if state==0:
+                command_path=COMPLETE_DISPLAY_COMMANDS[command] 
+                result = subprocess.run(
+                        [command_path],
+                        capture_output=True,
+                        text=True,
+                        check=True
+                        )
+                print(f"DEBUG: stdout={result.stdout!r}", file=sys.stderr)
+                return result.stdout.strip('\n')+' '
+            return None
 
         else:
             # The current argument does not contain a path,
