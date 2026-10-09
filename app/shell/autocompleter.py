@@ -1,6 +1,7 @@
 import os
 import readline
 import subprocess
+import sys
 AUTO_COMPLETE_COMMANDS=["exit","echo","cd","type"]
 COMPLETE_DISPLAY_COMMANDS = {}
 
@@ -56,6 +57,9 @@ def completer(text, state):
 
         # Get the argument that is currently being completed
         command=buffer.rsplit(" ", 1)[0]
+        print(f"DEBUG: command={command!r}", file=sys.stderr)
+        print(f"DEBUG: registered completers={COMPLETE_DISPLAY_COMMANDS!r}", file=sys.stderr)
+        
         current_argument = buffer.rsplit(" ", 1)[1]
         directory_path = ""
         if '/' in current_argument:
@@ -74,6 +78,7 @@ def completer(text, state):
                     text=True,
                     check=True
                     )
+            print(f"DEBUG: stdout={result.stdout!r}", file=sys.stderr)
             return result.stdout.strip('\n')+' '
 
         else:
