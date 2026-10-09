@@ -5,11 +5,10 @@ import readline
 from app.shell.input_parser import parse_input, parse_redirection
 from app.shell.path_checker import find_path
 from app.shell.output_handler import write_stdout, write_stderr
-from app.shell.autocompleter import completer, update_auto_complete_commands, AUTO_COMPLETE_COMMANDS
+from app.shell.autocompleter import completer, update_auto_complete_commands, AUTO_COMPLETE_COMMANDS, COMPLETE_DISPLAY_COMMANDS
 
 
 BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd","complete"}
-COMPLETE_DISPLAY_COMMANDS = {}
 
 def main():
     # Update the auto-complete commands list with executables from the PATH directories
@@ -84,7 +83,10 @@ def main():
 
                 else:
                     print(f'complete: {target_command}: no completion specification')
-            
+        
+        # elif command in COMPLETE_DISPLAY_COMMANDS:
+        #     completer_path=COMPLETE_DISPLAY_COMMANDS[command]
+
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
             # finding the command in the PATH directories

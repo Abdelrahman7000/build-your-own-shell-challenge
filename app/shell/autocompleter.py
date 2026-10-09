@@ -1,8 +1,8 @@
 import os
 import readline
 import subprocess
-from app.main import COMPLETE_DISPLAY_COMMANDS
 AUTO_COMPLETE_COMMANDS=["exit","echo","cd","type"]
+COMPLETE_DISPLAY_COMMANDS = {}
 
 
 # def completer(text, state):
