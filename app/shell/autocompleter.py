@@ -1,7 +1,9 @@
 import os
 import readline
-
+import subprocess
+from app.main import COMPLETE_DISPLAY_COMMANDS
 AUTO_COMPLETE_COMMANDS=["exit","echo","cd","type"]
+
 
 # def completer(text, state):
 #     '''
@@ -53,6 +55,7 @@ def completer(text, state):
     if ' ' in buffer:  # filename or directory completion
 
         # Get the argument that is currently being completed
+        command=buffer.rsplit(" ", 1)[0]
         current_argument = buffer.rsplit(" ", 1)[1]
         directory_path = ""
         if '/' in current_argument:
@@ -62,6 +65,16 @@ def completer(text, state):
             file_prefix = current_argument.rsplit("/", 1)[1]
 
             matches = [filename for filename in os.listdir(directory_path) if filename.startswith(file_prefix)]
+
+        elif command in COMPLETE_DISPLAY_COMMANDS:
+            command_path=COMPLETE_DISPLAY_COMMANDS[command] 
+            result = subprocess.run(
+                    [command_path],
+                    capture_output=True,
+                    text=True,
+                    check=True
+                    )
+            return result.strip('\n').stdout+' '
 
         else:
             # The current argument does not contain a path,
