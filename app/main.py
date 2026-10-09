@@ -84,8 +84,7 @@ def main():
                 else:
                     print(f'complete: {target_command}: no completion specification')
         
-        # elif command in COMPLETE_DISPLAY_COMMANDS:
-        #     completer_path=COMPLETE_DISPLAY_COMMANDS[command]
+
 
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
