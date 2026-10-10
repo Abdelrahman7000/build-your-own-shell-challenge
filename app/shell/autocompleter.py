@@ -80,7 +80,8 @@ def completer(text, state):
                         check=True
                         )
                 #print(f"DEBUG: stdout={result.stdout!r}", file=sys.stderr)
-                return result.stdout.strip('\n')+' '
+                if result.stdout:
+                    return result.stdout.strip('\n')+' '
             return None
 
         else:
