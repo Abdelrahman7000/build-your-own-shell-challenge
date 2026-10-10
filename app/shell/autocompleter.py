@@ -80,7 +80,13 @@ def completer(text, state):
             if state==0:
                 command_path=COMPLETE_DISPLAY_COMMANDS[command]
                 second_argument=text
-                third_argument= buffer.split(' ')[-2] if len(buffer.split(' '))>2 else ' ' 
+                #third_argument= buffer.split(' ')[-2] if len(buffer.split(' '))>2 else ' ' 
+                if buffer.endswith(' '):
+                    # If there's a trailing space, the last word in parts is the preceding word
+                    third_argument = buffer.split()[-1] if len(buffer.split()) >= 1 else ''
+                else:
+                    # If no trailing space, the second-to-last word is the preceding word
+                    third_argument = buffer.split()[-2] if len(buffer.split()) >= 2 else ''
                 result = subprocess.run(
                         [command_path,command,second_argument,third_argument],
                         capture_output=True,
