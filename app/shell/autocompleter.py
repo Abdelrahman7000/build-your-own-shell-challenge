@@ -56,7 +56,7 @@ def completer(text, state):
     if ' ' in buffer:  # filename or directory completion
 
         # Get the argument that is currently being completed
-        command=buffer.rsplit(" ", 1)[0] 
+        command=buffer.split(" ")[0] #buffer.rsplit(" ", 1)[0] 
         # second_argument=buffer.rsplit(" ", 1)[1] 
         # third_argument=buffer.rsplit(" ", 1)[2] 
         
