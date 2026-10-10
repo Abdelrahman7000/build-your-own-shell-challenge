@@ -56,9 +56,9 @@ def completer(text, state):
     if ' ' in buffer:  # filename or directory completion
 
         # Get the argument that is currently being completed
-        command=buffer.rsplit(" ", 1)[0]
-        second_argument=buffer.rsplit(" ", 1)[1]
-        third_argument=buffer.rsplit(" ", 1)[2]
+        command=buffer.rsplit(" ", 1)[0] 
+        # second_argument=buffer.rsplit(" ", 1)[1] 
+        # third_argument=buffer.rsplit(" ", 1)[2] 
         
         # print(f"DEBUG: command={command!r}", file=sys.stderr)
         # print(f"DEBUG: second_argument={second_argument!r}", file=sys.stderr)
@@ -85,11 +85,12 @@ def completer(text, state):
                         text=True,
                         check=True
                         )
-                print(f"DEBUG: command={command!r}", file=sys.stderr)
-                print(f"DEBUG: second_argument={second_argument!r}", file=sys.stderr)
-                print(f"DEBUG: third_argument={third_argument!r}", file=sys.stderr)
+                # print(f"DEBUG: command={command!r}", file=sys.stderr)
+                # print(f"DEBUG: second_argument={second_argument!r}", file=sys.stderr)
+                # print(f"DEBUG: third_argument={third_argument!r}", file=sys.stderr)
                 #print(f"DEBUG: stdout={result.stdout!r}", file=sys.stderr)
                 if result.stdout:
+                    print(text)
                     return result.stdout.strip('\n')+' '
             return None
 
