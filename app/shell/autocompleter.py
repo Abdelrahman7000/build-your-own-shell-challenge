@@ -79,8 +79,8 @@ def completer(text, state):
         elif command in COMPLETE_DISPLAY_COMMANDS: # complete the output of a command that displays a list of options
             if state==0:
                 command_path=COMPLETE_DISPLAY_COMMANDS[command]
-                second_argument=buffer.split(' ')[-1]
-                third_argument= buffer.split(' ')[-2] if len(buffer.split(' '))>2 else '' 
+                second_argument=text
+                third_argument= buffer.split(' ')[-2] if len(buffer.split(' '))>2 else ' ' 
                 result = subprocess.run(
                         [command_path,command,second_argument,third_argument],
                         capture_output=True,
