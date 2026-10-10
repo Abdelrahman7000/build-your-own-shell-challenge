@@ -60,9 +60,9 @@ def completer(text, state):
         second_argument=buffer.rsplit(" ", 1)[1]
         third_argument=buffer.rsplit(" ", 1)[2]
         
-        print(f"DEBUG: command={command!r}", file=sys.stderr)
-        print(f"DEBUG: second_argument={second_argument!r}", file=sys.stderr)
-        print(f"DEBUG: third_argument={third_argument!r}", file=sys.stderr)
+        # print(f"DEBUG: command={command!r}", file=sys.stderr)
+        # print(f"DEBUG: second_argument={second_argument!r}", file=sys.stderr)
+        # print(f"DEBUG: third_argument={third_argument!r}", file=sys.stderr)
         
         #print(f"DEBUG: registered completers={COMPLETE_DISPLAY_COMMANDS!r}", file=sys.stderr)
         
@@ -85,6 +85,9 @@ def completer(text, state):
                         text=True,
                         check=True
                         )
+                print(f"DEBUG: command={command!r}", file=sys.stderr)
+                print(f"DEBUG: second_argument={second_argument!r}", file=sys.stderr)
+                print(f"DEBUG: third_argument={third_argument!r}", file=sys.stderr)
                 #print(f"DEBUG: stdout={result.stdout!r}", file=sys.stderr)
                 if result.stdout:
                     return result.stdout.strip('\n')+' '
