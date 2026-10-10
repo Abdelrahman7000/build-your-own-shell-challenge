@@ -82,7 +82,7 @@ def completer(text, state):
                 second_argument=text
                 third_argument= buffer.split(' ')[-2] if len(buffer.split(' '))>2 else '' 
                 result = subprocess.run(
-                        [command_path,second_argument,third_argument],
+                        [command_path,command,second_argument,third_argument],
                         capture_output=True,
                         text=True,
                         check=True
