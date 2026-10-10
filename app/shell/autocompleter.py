@@ -76,21 +76,18 @@ def completer(text, state):
 
             matches = [filename for filename in os.listdir(directory_path) if filename.startswith(file_prefix)]
 
-        elif command in COMPLETE_DISPLAY_COMMANDS:
+        elif command in COMPLETE_DISPLAY_COMMANDS: # complete the output of a command that displays a list of options
             if state==0:
-                command_path=COMPLETE_DISPLAY_COMMANDS[command] 
+                command_path=COMPLETE_DISPLAY_COMMANDS[command]
+                second_argument=text
+                third_argument= buffer.split(' ')[-2] if len(buffer.split(' '))>2 else '' 
                 result = subprocess.run(
-                        [command_path],
+                        [command_path,second_argument,third_argument],
                         capture_output=True,
                         text=True,
                         check=True
                         )
-                # print(f"DEBUG: command={command!r}", file=sys.stderr)
-                # print(f"DEBUG: second_argument={second_argument!r}", file=sys.stderr)
-                # print(f"DEBUG: third_argument={third_argument!r}", file=sys.stderr)
-                #print(f"DEBUG: stdout={result.stdout!r}", file=sys.stderr)
                 if result.stdout:
-                    print(text)
                     return result.stdout.strip('\n')+' '
             return None
 
