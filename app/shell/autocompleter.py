@@ -57,7 +57,13 @@ def completer(text, state):
 
         # Get the argument that is currently being completed
         command=buffer.rsplit(" ", 1)[0]
-        #print(f"DEBUG: command={command!r}", file=sys.stderr)
+        second_argument=buffer.rsplit(" ", 1)[1]
+        third_argument=buffer.rsplit(" ", 1)[2]
+        
+        print(f"DEBUG: command={command!r}", file=sys.stderr)
+        print(f"DEBUG: second_argument={second_argument!r}", file=sys.stderr)
+        print(f"DEBUG: third_argument={third_argument!r}", file=sys.stderr)
+        
         #print(f"DEBUG: registered completers={COMPLETE_DISPLAY_COMMANDS!r}", file=sys.stderr)
         
         current_argument = buffer.rsplit(" ", 1)[1]
