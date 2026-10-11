@@ -92,6 +92,8 @@ def completer(text, state):
                             }
                         )
                 matches=sorted(result.stdout.splitlines())
+                if len(matches)>1:
+                    return None
 
                 #print(f'DEBUG: {result.stdout.splitlines()}')
                 # if result.stdout:
