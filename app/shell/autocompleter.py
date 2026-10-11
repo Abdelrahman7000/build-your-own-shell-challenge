@@ -97,7 +97,7 @@ def completer(text, state):
                 #     #res=result.stdout.split("^")
                 #     #return result.stdout.strip('\n')+' '
                 #     return result.stdout
-            return None
+            #return None
 
         else:
             # The current argument does not contain a path,
