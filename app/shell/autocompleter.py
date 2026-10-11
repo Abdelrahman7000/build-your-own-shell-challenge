@@ -99,7 +99,7 @@ def completer(text, state):
                 for i in matches:
                     res+=i
                     res+='  '
-                return res
+                print(res)
                 #print(f'DEBUG: {result.stdout.splitlines()}')
                 # if result.stdout:
                 #     #res=result.stdout.split("^")
