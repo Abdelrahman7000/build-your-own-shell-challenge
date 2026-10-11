@@ -6,7 +6,7 @@ AUTO_COMPLETE_COMMANDS=["exit","echo","cd","type"]
 COMPLETE_DISPLAY_COMMANDS = {}
 
 TAB_HITS=0
-matches=[]
+MATCHES_CACHE=[]
 # def completer(text, state):
 #     '''
 #     Args:
@@ -66,12 +66,13 @@ def completer(text, state):
             # Separate the directory path from the prefix being completed.
             directory_path = current_argument.rsplit("/", 1)[0] + '/'
             file_prefix = current_argument.rsplit("/", 1)[1]
-            global matches
+
             matches = [filename for filename in os.listdir(directory_path) if filename.startswith(file_prefix)]
 
         elif command in COMPLETE_DISPLAY_COMMANDS: # complete the output of a command that displays a list of options
             COMP_LINE=buffer # The entire command line buffer
             COMP_POINT=len(buffer) # The current cursor position in the buffer
+            global MATCHES_CACHE
             if state==0:
                 global TAB_HITS
                 TAB_HITS+=1
@@ -94,9 +95,9 @@ def completer(text, state):
                             "COMP_POINT":str(COMP_POINT) ,
                             }
                         )
-                global matches
-                matches=sorted(result.stdout.splitlines())
-            if len(matches)>1:
+
+                MATCHES_CACHE=sorted(result.stdout.splitlines())
+            if len(MATCHES_CACHE)>1:
                 if TAB_HITS==1:
                     return None
                 else:
@@ -108,13 +109,17 @@ def completer(text, state):
                     print(res)
                     sys.stdout.write("$ " + buffer)
                     TAB_HITS=0
-                    matches=[]
+                    return None
                 #print(f'DEBUG: {result.stdout.splitlines()}')
                 # if result.stdout:
                 #     #res=result.stdout.split("^")
                 #     #return result.stdout.strip('\n')+' '
                 #     return result.stdout
             #return None
+            if state < len(MATCHES_CACHE):
+                return MATCHES_CACHE[state] + " "
+            return None
+
 
         else:
             # The current argument does not contain a path,
