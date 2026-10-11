@@ -91,9 +91,9 @@ def completer(text, state):
                             "COMP_POINT":str(COMP_POINT) ,
                             }
                         )
-                matches=result.stdout.splitlines()
+                matches=sorted(result.stdout.splitlines())
 
-                print(f'DEBUG: {result.stdout.splitlines()}')
+                #print(f'DEBUG: {result.stdout.splitlines()}')
                 # if result.stdout:
                 #     #res=result.stdout.split("^")
                 #     #return result.stdout.strip('\n')+' '
