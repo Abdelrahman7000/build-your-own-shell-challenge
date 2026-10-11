@@ -69,11 +69,12 @@ def completer(text, state):
             matches = [filename for filename in os.listdir(directory_path) if filename.startswith(file_prefix)]
 
         elif command in COMPLETE_DISPLAY_COMMANDS: # complete the output of a command that displays a list of options
-            COMP_LINE=buffer
-            COMP_POINT=len(buffer)
+            COMP_LINE=buffer # The entire command line buffer
+            COMP_POINT=len(buffer) # The current cursor position in the buffer
             if state==0:
                 command_path=COMPLETE_DISPLAY_COMMANDS[command]
-                second_argument=text 
+                second_argument=text # The current argument being completed
+                # Determine the preceding argument based on whether there's a trailing space in the buffer
                 if buffer.endswith(' '):
                     # If there's a trailing space, the last word in parts is the preceding word
                     third_argument = buffer.split()[-1] if len(buffer.split()) >= 1 else ''
