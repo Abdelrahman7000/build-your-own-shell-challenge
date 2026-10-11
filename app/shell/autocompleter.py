@@ -57,15 +57,7 @@ def completer(text, state):
 
         # Get the argument that is currently being completed
         command=buffer.split(" ")[0] #buffer.rsplit(" ", 1)[0] 
-        # second_argument=buffer.rsplit(" ", 1)[1] 
-        # third_argument=buffer.rsplit(" ", 1)[2] 
-        
-        # print(f"DEBUG: command={command!r}", file=sys.stderr)
-        # print(f"DEBUG: second_argument={second_argument!r}", file=sys.stderr)
-        # print(f"DEBUG: third_argument={third_argument!r}", file=sys.stderr)
-        
-        #print(f"DEBUG: registered completers={COMPLETE_DISPLAY_COMMANDS!r}", file=sys.stderr)
-        
+                
         current_argument = buffer.rsplit(" ", 1)[1]
         directory_path = ""
         if '/' in current_argument:
@@ -77,10 +69,11 @@ def completer(text, state):
             matches = [filename for filename in os.listdir(directory_path) if filename.startswith(file_prefix)]
 
         elif command in COMPLETE_DISPLAY_COMMANDS: # complete the output of a command that displays a list of options
+            COMP_LINE=buffer
+            COMP_POINT=len(buffer)
             if state==0:
                 command_path=COMPLETE_DISPLAY_COMMANDS[command]
-                second_argument=text
-                #third_argument= buffer.split(' ')[-2] if len(buffer.split(' '))>2 else ' ' 
+                second_argument=text 
                 if buffer.endswith(' '):
                     # If there's a trailing space, the last word in parts is the preceding word
                     third_argument = buffer.split()[-1] if len(buffer.split()) >= 1 else ''
@@ -91,7 +84,11 @@ def completer(text, state):
                         [command_path,command,second_argument,third_argument],
                         capture_output=True,
                         text=True,
-                        check=True
+                        check=True,
+                        env={
+                            "COMP_LINE": COMP_LINE,
+                            "VAR2":COMP_POINT ,
+                            }
                         )
                 if result.stdout:
                     return result.stdout.strip('\n')+' '
