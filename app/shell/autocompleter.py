@@ -92,7 +92,8 @@ def completer(text, state):
                             }
                         )
                 matches=result.stdout.splitlines()
-                #print(f'DEBUG: {result.stdout.splitlines()}==> {type(result.stdout.splitlines())}')
+
+                print(f'DEBUG: {result.stdout.splitlines()}')
                 # if result.stdout:
                 #     #res=result.stdout.split("^")
                 #     #return result.stdout.strip('\n')+' '
