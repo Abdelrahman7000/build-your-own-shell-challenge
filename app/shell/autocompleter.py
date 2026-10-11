@@ -91,10 +91,11 @@ def completer(text, state):
                             "COMP_POINT":str(COMP_POINT) ,
                             }
                         )
-                if result.stdout:
-                    #res=result.stdout.split("^")
-                    #return result.stdout.strip('\n')+' '
-                    return result.stdout
+                print(result)
+                # if result.stdout:
+                #     #res=result.stdout.split("^")
+                #     #return result.stdout.strip('\n')+' '
+                #     return result.stdout
             return None
 
         else:
