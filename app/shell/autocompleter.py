@@ -102,6 +102,7 @@ def completer(text, state):
                         for i in matches:
                             res+=i
                             res+='  '
+                        print()
                         print(res)
                         sys.stdout.write("$ " + buffer)
                 #print(f'DEBUG: {result.stdout.splitlines()}')
