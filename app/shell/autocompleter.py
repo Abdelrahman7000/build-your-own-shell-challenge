@@ -71,6 +71,7 @@ def completer(text, state):
         elif command in COMPLETE_DISPLAY_COMMANDS: # complete the output of a command that displays a list of options
             COMP_LINE=buffer # The entire command line buffer
             COMP_POINT=len(buffer) # The current cursor position in the buffer
+            matches=[]
             if state==0:
                 global TAB_HITS
                 TAB_HITS+=1
@@ -94,17 +95,18 @@ def completer(text, state):
                             }
                         )
                 matches=sorted(result.stdout.splitlines())
-                if len(matches)>1:
-                    if TAB_HITS==1:
-                        return None
-                    else:
-                        res=''
-                        for i in matches:
-                            res+=i
-                            res+='  '
-                        print()
-                        print(res)
-                        sys.stdout.write("$ " + buffer)
+            if len(matches)>1:
+                if TAB_HITS==1:
+                    return None
+                else:
+                    res=''
+                    for i in matches:
+                        res+=i
+                        res+='  '
+                    print()
+                    print(res)
+                    sys.stdout.write("$ " + buffer)
+                    TAB_HITS=0
                 #print(f'DEBUG: {result.stdout.splitlines()}')
                 # if result.stdout:
                 #     #res=result.stdout.split("^")
