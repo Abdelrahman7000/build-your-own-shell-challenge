@@ -5,7 +5,7 @@ import sys
 AUTO_COMPLETE_COMMANDS=["exit","echo","cd","type"]
 COMPLETE_DISPLAY_COMMANDS = {}
 
-
+TAB_HITS=0
 # def completer(text, state):
 #     '''
 #     Args:
@@ -72,6 +72,7 @@ def completer(text, state):
             COMP_LINE=buffer # The entire command line buffer
             COMP_POINT=len(buffer) # The current cursor position in the buffer
             if state==0:
+                TAB_HITS+=1
                 command_path=COMPLETE_DISPLAY_COMMANDS[command]
                 second_argument=text # The current argument being completed
                 # Determine the preceding argument based on whether there's a trailing space in the buffer
@@ -93,13 +94,14 @@ def completer(text, state):
                         )
                 matches=sorted(result.stdout.splitlines())
                 if len(matches)>1:
-                    return None
-            elif state==1:
-                res=''
-                for i in matches:
-                    res+=i
-                    res+='  '
-                print(res)
+                    if TAB_HITS==1:
+                        return None
+                    else:
+                        res=''
+                        for i in matches:
+                            res+=i
+                            res+='  '
+                        print(res)
                 #print(f'DEBUG: {result.stdout.splitlines()}')
                 # if result.stdout:
                 #     #res=result.stdout.split("^")
