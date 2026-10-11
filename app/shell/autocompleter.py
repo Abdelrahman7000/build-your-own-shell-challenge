@@ -72,6 +72,7 @@ def completer(text, state):
             COMP_LINE=buffer # The entire command line buffer
             COMP_POINT=len(buffer) # The current cursor position in the buffer
             if state==0:
+                global TAB_HITS
                 TAB_HITS+=1
                 command_path=COMPLETE_DISPLAY_COMMANDS[command]
                 second_argument=text # The current argument being completed
@@ -102,6 +103,7 @@ def completer(text, state):
                             res+=i
                             res+='  '
                         print(res)
+                        sys.stdout.write("$ " + buffer)
                 #print(f'DEBUG: {result.stdout.splitlines()}')
                 # if result.stdout:
                 #     #res=result.stdout.split("^")
