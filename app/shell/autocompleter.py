@@ -92,9 +92,9 @@ def completer(text, state):
                             }
                         )
                 if result.stdout:
-                    res=result.stdout.split('\n')
+                    res=result.stdout.splitlines('\n')
                     #return result.stdout.strip('\n')+' '
-                    return res+' '
+                    return res
             return None
 
         else:
