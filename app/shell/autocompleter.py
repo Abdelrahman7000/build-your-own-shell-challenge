@@ -87,7 +87,7 @@ def completer(text, state):
                         check=True,
                         env={
                             "COMP_LINE": COMP_LINE,
-                            "VAR2":COMP_POINT ,
+                            "COMP_POINT":COMP_POINT ,
                             }
                         )
                 if result.stdout:
