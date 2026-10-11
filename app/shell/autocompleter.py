@@ -91,7 +91,7 @@ def completer(text, state):
                             "COMP_POINT":str(COMP_POINT) ,
                             }
                         )
-                print(result.stdout)
+                print(f'DEBUG: {result.stdout}')
                 # if result.stdout:
                 #     #res=result.stdout.split("^")
                 #     #return result.stdout.strip('\n')+' '
