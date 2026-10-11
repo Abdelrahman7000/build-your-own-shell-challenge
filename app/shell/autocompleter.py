@@ -102,7 +102,7 @@ def completer(text, state):
                     return None
                 else:
                     res=''
-                    for i in matches:
+                    for i in MATCHES_CACHE:
                         res+=i
                         res+='  '
                     print()
