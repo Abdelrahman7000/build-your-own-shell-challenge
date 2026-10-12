@@ -113,7 +113,7 @@ def handle_custom_script_completion(command, text, buffer, state):
                 # print(f"lcp DEBUG=> {lcp}")
                 # print(f"text DEBUG=> {text}")
                 #return lcp
-            #return None
+            return None
         else:
             res=''
             for i in MATCHES_CACHE:
