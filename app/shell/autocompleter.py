@@ -8,6 +8,21 @@ COMPLETE_DISPLAY_COMMANDS = {}
 TAB_HITS=0
 MATCHES_CACHE=[]
 
+def longest_common_prefix(strs):
+    if "" in strs:
+            return ""
+    elif len(strs)==1:
+        return strs[0]
+    else:
+        e=list(zip(*strs))
+        res=''
+        for i in e:
+            if len(set(i))==1:
+                res+=i[0]
+            else:
+                break
+        return res
+
 def handle_command_completion(text,state):
     '''
     Args:
@@ -81,8 +96,11 @@ def handle_custom_script_completion(command, text, buffer, state):
                 )
 
         MATCHES_CACHE=sorted(result.stdout.splitlines())
-    if len(MATCHES_CACHE)>1:
-        if TAB_HITS==1:
+    if len(MATCHES_CACHE)>1: # There are multiple candidates
+        if TAB_HITS==1: # First TAB hit
+            lcp=longest_common_prefix(MATCHES_CACHE)
+            if lcp and len(lcp)> len(text):
+                return lcp
             return None
         else:
             res=''
