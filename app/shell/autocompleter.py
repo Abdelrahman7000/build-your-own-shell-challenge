@@ -7,46 +7,7 @@ COMPLETE_DISPLAY_COMMANDS = {}
 
 TAB_HITS=0
 MATCHES_CACHE=[]
-# def completer(text, state):
-#     '''
-#     Args:
-#         text: str: the current input text to complete
-#         state: int: the state of the completion (0 for the first match, 1 for the second, etc.)
-#     Returns:
-#         str or None: the next possible completion for the input text, or None if no more completions are available
-#     '''
-#     # Get the current line buffer to determine if we are completing a command or a filename
-#     buffer = readline.get_line_buffer()
 
-#     if ' ' in buffer: #filename or directory completion
-#         directory_path = ""
-#         if '/' in buffer: 
-#             # If the buffer contains a '/', we assume the user is trying to complete a file or directory path. 
-#             # We split the buffer to get the directory path and the file prefix, then list the files & directories in that directory and 
-#             # filter them based on the prefix.
-
-#             directory_path=buffer.split()[1].rsplit("/", 1)[0]+'/'
-#             entry_prefix=buffer.split()[1].rsplit("/", 1)[1]
-#             matches=[filename for filename in os.listdir(directory_path) if filename.startswith(entry_prefix)]
-#         else:
-#             # If the buffer does not contain a '/', we assume the user is trying to complete a filename or directory in the current directory.
-#             matches = [filename for filename in os.listdir(".") if filename.startswith(text)]
-#         if state <len(matches):
-#             if os.path.isdir(directory_path+matches[state]):
-#                 return matches[state]+"/"
-#             else:
-#                 return matches[state] + " "
-#         return None
-    
-#     else:# command completion
-#         matches = [cmd for cmd in AUTO_COMPLETE_COMMANDS if cmd.startswith(text)]
-#         if state < len(matches):
-#             return matches[state] + " "
-#         return None
-
-#################################################################################################
-#################################################################################################
-#################################################################################################
 def handle_command_completion(text,state):
     matches = [cmd for cmd in AUTO_COMPLETE_COMMANDS if cmd.startswith(text)]
     if state < len(matches):
@@ -123,104 +84,14 @@ def completer(text,state):
     buffer = readline.get_line_buffer()
 
     if ' ' in buffer:
-        command=buffer.split(" ")[0] #buffer.rsplit(" ", 1)[0]
+        command=buffer.split(" ")[0] 
         current_argument = buffer.rsplit(" ", 1)[1]
-        #directory_path = ""
         if command in COMPLETE_DISPLAY_COMMANDS:
             return handle_custom_script_completion(command,text,buffer,state)
         else:
             return handle_path_completion(current_argument,state)
     else:
         return handle_command_completion(text,state)
-
-# def completer(text, state):
-#     '''
-#     Args:
-#         text: str: the current input text to complete
-#         state: int: the state of the completion (0 for the first match, 1 for the second, etc.)
-#     Returns:
-#         str or None: the next possible completion for the input text, or None if no more completions are available
-#     '''
-#     buffer = readline.get_line_buffer()
-
-#     if ' ' in buffer:  # filename or directory completion
-
-#         # Get the argument that is currently being completed
-#         command=buffer.split(" ")[0] #buffer.rsplit(" ", 1)[0] 
-                
-#         current_argument = buffer.rsplit(" ", 1)[1]
-#         directory_path = ""
-#         if '/' in current_argument: # The current argument contains a path. So we need to separate the directory path from the prefix being completed.
-
-#             directory_path = current_argument.rsplit("/", 1)[0] + '/'
-#             file_prefix = current_argument.rsplit("/", 1)[1]
-
-#             matches = [filename for filename in os.listdir(directory_path) if filename.startswith(file_prefix)]
-
-#         elif command in COMPLETE_DISPLAY_COMMANDS: # complete the output of a command that displays a list of options
-#             COMP_LINE=buffer # The entire command line buffer
-#             COMP_POINT=len(buffer) # The current cursor position in the buffer
-#             global MATCHES_CACHE
-#             if state==0:
-#                 global TAB_HITS
-#                 TAB_HITS+=1
-#                 command_path=COMPLETE_DISPLAY_COMMANDS[command]
-#                 second_argument=text # The current argument being completed
-#                 # Determine the preceding argument based on whether there's a trailing space in the buffer
-#                 if buffer.endswith(' '):
-#                     # If there's a trailing space, the last word in the buffer is the preceding word
-#                     third_argument = buffer.split()[-1] if len(buffer.split()) >= 1 else ''
-#                 else:
-#                     # If no trailing space, the second-to-last word is the preceding word
-#                     third_argument = buffer.split()[-2] if len(buffer.split()) >= 2 else ''
-#                 result = subprocess.run(
-#                         [command_path,command,second_argument,third_argument],
-#                         capture_output=True,
-#                         text=True,
-#                         check=True,
-#                         env={
-#                             "COMP_LINE": COMP_LINE,
-#                             "COMP_POINT":str(COMP_POINT) ,
-#                             }
-#                         )
-
-#                 MATCHES_CACHE=sorted(result.stdout.splitlines())
-#             if len(MATCHES_CACHE)>1:
-#                 if TAB_HITS==1:
-#                     return None
-#                 else:
-#                     res=''
-#                     for i in MATCHES_CACHE:
-#                         res+=i
-#                         res+='  '
-#                     print()
-#                     print(res)
-#                     sys.stdout.write("$ " + buffer)
-#                     TAB_HITS=0
-#                     return None
-            
-#             if state < len(MATCHES_CACHE):
-#                 return MATCHES_CACHE[state] + " "
-#             return None
-
-#         else: # The current argument does not contain a path, So search in the current working directory.
-
-#             file_prefix = current_argument
-#             matches = [filename for filename in os.listdir(".") if filename.startswith(file_prefix)]
-
-#         if state < len(matches):
-#             if os.path.isdir(directory_path + matches[state]):
-#                 return matches[state] + "/"
-#             else:
-#                 return matches[state] + " "
-#         return None
-
-#     else:  # command completion
-#         matches = [cmd for cmd in AUTO_COMPLETE_COMMANDS if cmd.startswith(text)]
-
-#         if state < len(matches):
-#             return matches[state] + " "
-#         return None
 
 
 def update_auto_complete_commands():
