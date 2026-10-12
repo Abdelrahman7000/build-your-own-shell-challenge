@@ -127,11 +127,11 @@ def completer(text,state):
         current_argument = buffer.rsplit(" ", 1)[1]
         #directory_path = ""
         if command in COMPLETE_DISPLAY_COMMANDS:
-            handle_custom_script_completion(command,text,buffer,state)
+            return handle_custom_script_completion(command,text,buffer,state)
         else:
-            handle_path_completion(current_argument,state)
+            return handle_path_completion(current_argument,state)
     else:
-        handle_command_completion(text,state)
+        return handle_command_completion(text,state)
 
 # def completer(text, state):
 #     '''
