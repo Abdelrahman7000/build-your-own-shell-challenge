@@ -9,20 +9,32 @@ TAB_HITS=0
 MATCHES_CACHE=[]
 
 def handle_command_completion(text,state):
+    '''
+    Args:
+        text: str: the current argument being completed
+        state: int: the current state of the completion (0 for the first match, 1 for the second match, etc.)
+    '''
     matches = [cmd for cmd in AUTO_COMPLETE_COMMANDS if cmd.startswith(text)]
     if state < len(matches):
         return matches[state] + " "
     return None
 
 def handle_path_completion(current_argument, state):
+    '''
+    Args:
+        current_argument: str: the current argument being completed
+        state: int: the current state of the completion (0 for the first match, 1 for the second match, etc.)
+    '''
     directory_path=""
-    if '/' in current_argument: # The current argument contains a path. So we need to separate the directory path from the prefix being completed.
+    # if the current argument contains a path. So we need to separate the directory path from the prefix being completed.
+    if '/' in current_argument: 
 
         directory_path = current_argument.rsplit("/", 1)[0] + '/'
         file_prefix = current_argument.rsplit("/", 1)[1]
         matches = [filename for filename in os.listdir(directory_path) if filename.startswith(file_prefix)]
 
-    else: # The current argument does not contain a path, So search in the current working directory.
+    # if the current argument does not contain a path, So search in the current working directory.
+    else: 
         file_prefix = current_argument
         matches = [filename for filename in os.listdir(".") if filename.startswith(file_prefix)]
 
@@ -35,6 +47,13 @@ def handle_path_completion(current_argument, state):
 
 
 def handle_custom_script_completion(command, text, buffer, state):
+    '''
+    Args:
+        command: str: the command for which we are handling completion
+        text: str: the current argument being completed
+        buffer: str: the entire command line buffer
+        state: int: the current state of the completion (0 for the first match, 1 for the second match, etc.)
+    '''
     COMP_LINE=buffer # The entire command line buffer
     COMP_POINT=len(buffer) # The current cursor position in the buffer
     global MATCHES_CACHE
@@ -81,6 +100,11 @@ def handle_custom_script_completion(command, text, buffer, state):
     return None
     
 def completer(text,state):
+    '''
+    Args:
+        text: str: the current argument being completed
+        state: int: the current state of the completion (0 for the first match, 1 for the second match, etc.)
+    '''
     buffer = readline.get_line_buffer()
 
     if ' ' in buffer:
