@@ -107,6 +107,8 @@ def handle_custom_script_completion(command, text, buffer, state):
         if TAB_HITS==1: # First TAB hit
             lcp=longest_common_prefix(MATCHES_CACHE)
             if lcp and len(lcp)> len(text):
+                print(f"DEBUG=>{text}")
+                print(f"DEBUG => {lcp}")
                 return lcp
             return None
         else:
