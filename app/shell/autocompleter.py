@@ -78,9 +78,9 @@ def handle_custom_script_completion(command, text, buffer, state):
         TAB_HITS = 0
         MATCHES_CACHE = []
         LAST_BUFFER = buffer
-        
+
     if state==0:
-        global TAB_HITS
+        #global TAB_HITS
         TAB_HITS+=1
         command_path=COMPLETE_DISPLAY_COMMANDS[command]
         second_argument=text # The current argument being completed
