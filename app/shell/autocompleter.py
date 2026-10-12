@@ -80,7 +80,7 @@ def completer(text, state):
                 second_argument=text # The current argument being completed
                 # Determine the preceding argument based on whether there's a trailing space in the buffer
                 if buffer.endswith(' '):
-                    # If there's a trailing space, the last word in parts is the preceding word
+                    # If there's a trailing space, the last word in the buffer is the preceding word
                     third_argument = buffer.split()[-1] if len(buffer.split()) >= 1 else ''
                 else:
                     # If no trailing space, the second-to-last word is the preceding word
