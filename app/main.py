@@ -74,6 +74,10 @@ def main():
                 completer_path=args[1]
                 COMPLETE_DISPLAY_COMMANDS[target_command]= completer_path
 
+            elif len(args)>=2 and args[0]=='-r':
+                target_command=args[1]
+                COMPLETE_DISPLAY_COMMANDS.pop(target_command, None)
+
             # if the command is "complete -p", we will check if the target command has a completion specification and print it accordingly
             elif len(args)>=2 and args[0]=='-p':
                 target_command=args[1]

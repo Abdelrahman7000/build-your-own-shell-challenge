@@ -111,7 +111,7 @@ def handle_custom_script_completion(command, text, buffer, state):
                 readline.insert_text(suffix)
                 return None
             return None
-        else:
+        else: # subsequent TAB hits
             res=''
             for i in MATCHES_CACHE:
                 res+=i
