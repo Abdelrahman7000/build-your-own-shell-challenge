@@ -8,6 +8,8 @@ COMPLETE_DISPLAY_COMMANDS = {}
 TAB_HITS=0
 MATCHES_CACHE=[]
 
+LAST_BUFFER = ""
+
 def longest_common_prefix(strs):
     if "" in strs:
             return ""
@@ -71,7 +73,12 @@ def handle_custom_script_completion(command, text, buffer, state):
     '''
     COMP_LINE=buffer # The entire command line buffer
     COMP_POINT=len(buffer) # The current cursor position in the buffer
-    global MATCHES_CACHE
+    global MATCHES_CACHE, TAB_HITS,LAST_BUFFER
+    if buffer != LAST_BUFFER:
+        TAB_HITS = 0
+        MATCHES_CACHE = []
+        LAST_BUFFER = buffer
+        
     if state==0:
         global TAB_HITS
         TAB_HITS+=1
