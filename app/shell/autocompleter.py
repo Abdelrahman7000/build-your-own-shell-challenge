@@ -13,8 +13,8 @@ LAST_BUFFER = ""
 def longest_common_prefix(strs):
     if "" in strs:
             return ""
-    # elif len(strs)==1:
-    #     return strs[0]
+    elif len(strs)==1:
+        return strs[0]
     else:
         e=list(zip(*strs))
         res=''
@@ -106,13 +106,10 @@ def handle_custom_script_completion(command, text, buffer, state):
     if len(MATCHES_CACHE)>1: # There are multiple candidates
         if TAB_HITS==1: # First TAB hit
             lcp=longest_common_prefix(MATCHES_CACHE)
-            if lcp and len(lcp)> len(text):
+            if lcp and len(lcp)> len(text): #if the shared prefix is longer than the current input
                 suffix = lcp[len(text):]
                 readline.insert_text(suffix)
                 return None
-                # print(f"lcp DEBUG=> {lcp}")
-                # print(f"text DEBUG=> {text}")
-                #return lcp
             return None
         else:
             res=''
