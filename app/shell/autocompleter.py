@@ -61,9 +61,8 @@ def completer(text, state):
                 
         current_argument = buffer.rsplit(" ", 1)[1]
         directory_path = ""
-        if '/' in current_argument:
-            # The current argument contains a path.
-            # Separate the directory path from the prefix being completed.
+        if '/' in current_argument: # The current argument contains a path. So we need to separate the directory path from the prefix being completed.
+
             directory_path = current_argument.rsplit("/", 1)[0] + '/'
             file_prefix = current_argument.rsplit("/", 1)[1]
 
@@ -110,22 +109,14 @@ def completer(text, state):
                     sys.stdout.write("$ " + buffer)
                     TAB_HITS=0
                     return None
-                #print(f'DEBUG: {result.stdout.splitlines()}')
-                # if result.stdout:
-                #     #res=result.stdout.split("^")
-                #     #return result.stdout.strip('\n')+' '
-                #     return result.stdout
-            #return None
+            
             if state < len(MATCHES_CACHE):
                 return MATCHES_CACHE[state] + " "
             return None
 
+        else: # The current argument does not contain a path, So search in the current working directory.
 
-        else:
-            # The current argument does not contain a path,
-            # so search in the current working directory.
             file_prefix = current_argument
-
             matches = [filename for filename in os.listdir(".") if filename.startswith(file_prefix)]
 
         if state < len(matches):
