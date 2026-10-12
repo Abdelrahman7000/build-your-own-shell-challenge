@@ -13,8 +13,8 @@ LAST_BUFFER = ""
 def longest_common_prefix(strs):
     if "" in strs:
             return ""
-    elif len(strs)==1:
-        return strs[0]
+    # elif len(strs)==1:
+    #     return strs[0]
     else:
         e=list(zip(*strs))
         res=''
