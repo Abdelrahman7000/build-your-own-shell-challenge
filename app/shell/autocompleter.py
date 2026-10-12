@@ -44,6 +44,39 @@ MATCHES_CACHE=[]
 #             return matches[state] + " "
 #         return None
 
+#################################################################################################
+#################################################################################################
+#################################################################################################
+# def handle_command_completion(text,state):
+#     matches = [cmd for cmd in AUTO_COMPLETE_COMMANDS if cmd.startswith(text)]
+#     if state < len(matches):
+#         return matches[state] + " "
+#     return None
+
+# def handle_path_completion(buffer,state):
+#     current_argument = buffer.rsplit(" ", 1)[1]
+#     directory_path=""
+
+#     if '/' in current_argument: # The current argument contains a path. So we need to separate the directory path from the prefix being completed.
+#         directory_path = current_argument.rsplit("/", 1)[0] + '/'
+#         file_prefix = current_argument.rsplit("/", 1)[1]
+
+#         matches = [filename for filename in os.listdir(directory_path) if filename.startswith(file_prefix)]
+#     else:
+#         file_prefix=current_argument
+#         matches = [filename for filename in os.listdir(".") if filename.startswith(file_prefix)]
+    
+#     if state < len(matches):
+#         if os.path.isdir(directory_path + matches[state]):
+#             return matches[state] + "/"
+#         else:
+#             return matches[state] + " "
+#     return None
+
+
+# def handle_custom_script_completion(command, text, buffer, state):
+
+
 def completer(text, state):
     '''
     Args:
