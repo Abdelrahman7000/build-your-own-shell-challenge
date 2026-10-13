@@ -132,19 +132,20 @@ def main():
                 # Background jobs
                 elif args[-1]=='&':
                     args.pop()
-                    proc=subprocess.Popen(
-                        args,
-                        executable=command_path
-                    )
-                    child_process_id=proc.pid
-                    if BACKGROUND_JOBS:
-                        last_job_number=list(BACKGROUND_JOBS.keys())[-1]
-                        next_job=last_job_number+1
-                    else:
-                        next_job=1
+                    print(args)
+                    # proc=subprocess.Popen(
+                    #     args,
+                    #     executable=command_path
+                    # )
+                    # child_process_id=proc.pid
+                    # if BACKGROUND_JOBS:
+                    #     last_job_number=list(BACKGROUND_JOBS.keys())[-1]
+                    #     next_job=last_job_number+1
+                    # else:
+                    #     next_job=1
             
-                    BACKGROUND_JOBS[next_job]=child_process_id
-                    print(f"[{next_job}] {child_process_id}")
+                    # BACKGROUND_JOBS[next_job]=[child_process_id,args]#child_process_id
+                    # print(f"[{next_job}] {child_process_id}")
 
                 # executing the command without output redirection
                 else:
