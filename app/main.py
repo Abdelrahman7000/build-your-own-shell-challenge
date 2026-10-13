@@ -8,7 +8,7 @@ from app.shell.output_handler import write_stdout, write_stderr
 from app.shell.autocompleter import completer, update_auto_complete_commands , AUTO_COMPLETE_COMMANDS, COMMAND_COMPLETION_SCRIPTS
 
 
-BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd","complete"}
+BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd","complete","jobs"}
 
 def main():
     # Update the auto-complete commands list with executables from the PATH directories
@@ -88,7 +88,8 @@ def main():
                 else:
                     print(f'complete: {target_command}: no completion specification')
         
-
+        elif command=='jobs':
+            continue
 
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
