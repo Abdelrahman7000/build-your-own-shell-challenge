@@ -131,7 +131,9 @@ def main():
                         )
                 elif args[-1]=='&':
                     args.pop()
+                    args.pop()
                     print(args)
+                    print(type(args))
                     # proc=subprocess.Popen(
                     #     args,
                     #     executable=command_path
