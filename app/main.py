@@ -90,7 +90,10 @@ def main():
                     print(f'complete: {target_command}: no completion specification')
         
         elif command=='jobs':
-            pass
+            
+            if BACKGROUND_JOBS:
+                for job_num,val in BACKGROUND_JOBS.items():
+                    print(f"[{job_num}]+  Running                 {val[1]} &")
 
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
