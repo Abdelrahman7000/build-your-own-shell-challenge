@@ -132,7 +132,7 @@ def main():
                 # Background jobs
                 elif args[-1]=='&':
                     args.pop()
-                    print(args)
+                    print(' '.join(args))
                     # proc=subprocess.Popen(
                     #     args,
                     #     executable=command_path
