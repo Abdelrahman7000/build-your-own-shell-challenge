@@ -89,7 +89,7 @@ def main():
                     print(f'complete: {target_command}: no completion specification')
         
         elif command=='jobs':
-            print(args)
+            pass
 
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
@@ -128,6 +128,10 @@ def main():
                             executable=command_path,
                             stdout=f
                         )
+                elif args[-1]=='&':
+                    print(args[0])
+                    print(args[1])
+                    print(args)
                 # executing the command without output redirection
                 else:
                     subprocess.run(
