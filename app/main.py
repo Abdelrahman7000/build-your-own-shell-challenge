@@ -131,21 +131,21 @@ def main():
                         )
                 elif args[-1]=='&':
                     args.pop()
-                    args.pop()
                     print(args)
-                    print(type(args))
                     # proc=subprocess.Popen(
                     #     args,
                     #     executable=command_path
                     # )
                     # current_process=proc.pid
                     # if BACKGROUND_JOBS:
-                    #     last_job_number=BACKGROUND_JOBS.keys()[-1]
-                    #     BACKGROUND_JOBS[last_job_number+1]=current_process
-                    #     print(f"[{last_job_number+1}] {current_process}")
+                    #     last_job_number=list(BACKGROUND_JOBS.keys())[-1]
+                    #     next_job=last_job_number+1
                     # else:
-                    #     BACKGROUND_JOBS[1]=os.getpid()
-                    #     print(f"[1] {current_process}")
+                    #     next_job=1
+            
+                    # BACKGROUND_JOBS[next_job]=current_process
+                    # print(f"[{next_job}] {current_process}")
+
                 # executing the command without output redirection
                 else:
                     subprocess.run(
