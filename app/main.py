@@ -9,6 +9,7 @@ from app.shell.autocompleter import completer, update_auto_complete_commands , A
 
 
 BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd","complete","jobs"}
+BACKGROUND_JOBS={}
 
 def main():
     # Update the auto-complete commands list with executables from the PATH directories
@@ -129,15 +130,24 @@ def main():
                             stdout=f
                         )
                 elif args[-1]=='&':
-                    print(args[0])
-                    print(args[1])
-                    print(args)
+                    print(os.getpid())
+                    # args.pop()
+                    # subprocess.Popen(
+                    #     args,
+                    #     executable=command_path
+                    # )
+                    # if BACKGROUND_JOBS:
+                    #     last_job_number=BACKGROUND_JOBS.keys()[-1]
+                    #     BACKGROUND_JOBS[last_job_number+1]=os.getpid()
+                    # else:
+                    #     BACKGROUND_JOBS[1]=os.getpid()
                 # executing the command without output redirection
                 else:
                     subprocess.run(
                             args,
                             executable=command_path
                     )
+                    
 
             # command not found (unidentified command)
             else:
