@@ -3,7 +3,7 @@ import readline
 import subprocess
 import sys
 AUTO_COMPLETE_COMMANDS=["exit","echo","cd","type"]
-COMPLETE_DISPLAY_COMMANDS = {}
+COMMAND_COMPLETION_SCRIPTS = {}
 
 TAB_HITS=0
 MATCHES_CACHE=[]
@@ -82,7 +82,7 @@ def handle_custom_script_completion(command, text, buffer, state):
     if state==0:
         #global TAB_HITS
         TAB_HITS+=1
-        command_path=COMPLETE_DISPLAY_COMMANDS[command]
+        command_path=COMMAND_COMPLETION_SCRIPTS[command]
         second_argument=text # The current argument being completed
         # Determine the preceding argument based on whether there's a trailing space in the buffer
         if buffer.endswith(' '):
@@ -137,7 +137,7 @@ def completer(text,state):
     if ' ' in buffer:
         command=buffer.split(" ")[0] 
         current_argument = buffer.rsplit(" ", 1)[1]
-        if command in COMPLETE_DISPLAY_COMMANDS:
+        if command in COMMAND_COMPLETION_SCRIPTS:
             return handle_custom_script_completion(command,text,buffer,state)
         else:
             return handle_path_completion(current_argument,state)

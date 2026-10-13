@@ -5,7 +5,7 @@ import readline
 from app.shell.input_parser import parse_input, parse_redirection
 from app.shell.path_checker import find_path
 from app.shell.output_handler import write_stdout, write_stderr
-from app.shell.autocompleter import completer, update_auto_complete_commands , AUTO_COMPLETE_COMMANDS, COMPLETE_DISPLAY_COMMANDS
+from app.shell.autocompleter import completer, update_auto_complete_commands , AUTO_COMPLETE_COMMANDS, COMMAND_COMPLETION_SCRIPTS
 
 
 BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd","complete"}
@@ -72,17 +72,17 @@ def main():
             if len(args)>=3 and args[0]=='-C': 
                 target_command=args[2]
                 completer_path=args[1]
-                COMPLETE_DISPLAY_COMMANDS[target_command]= completer_path
+                COMMAND_COMPLETION_SCRIPTS[target_command]= completer_path
 
             elif len(args)>=2 and args[0]=='-r':
                 target_command=args[1]
-                COMPLETE_DISPLAY_COMMANDS.pop(target_command, None)
+                COMMAND_COMPLETION_SCRIPTS.pop(target_command, None)
 
             # if the command is "complete -p", we will check if the target command has a completion specification and print it accordingly
             elif len(args)>=2 and args[0]=='-p':
                 target_command=args[1]
-                if target_command in COMPLETE_DISPLAY_COMMANDS:
-                    completer_path=COMPLETE_DISPLAY_COMMANDS[target_command]
+                if target_command in COMMAND_COMPLETION_SCRIPTS:
+                    completer_path=COMMAND_COMPLETION_SCRIPTS[target_command]
                     print(f"complete -C '{completer_path}' {target_command}")
 
                 else:
