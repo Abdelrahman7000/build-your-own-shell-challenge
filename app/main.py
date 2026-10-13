@@ -2,10 +2,10 @@
 import os
 import subprocess
 import readline
-from app.shell.input_parser import parse_input, parse_redirection
-from app.shell.path_checker import find_path
-from app.shell.output_handler import write_stdout, write_stderr
-from app.shell.autocompleter import completer, update_auto_complete_commands , AUTO_COMPLETE_COMMANDS, COMMAND_COMPLETION_SCRIPTS
+from app.shell_utils.input_parser import parse_input, parse_redirection
+from app.shell_utils.path_checker import find_path
+from app.shell_utils.output_handler import write_stdout, write_stderr
+from app.shell_utils.autocompleter import completer, update_auto_complete_commands , AUTO_COMPLETE_COMMANDS, COMMAND_COMPLETION_SCRIPTS
 
 
 BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd","complete","jobs"}
