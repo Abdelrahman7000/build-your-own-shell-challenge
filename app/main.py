@@ -90,11 +90,17 @@ def main():
                     print(f'complete: {target_command}: no completion specification')
         
         elif command=='jobs':
-            
             if BACKGROUND_JOBS:
-                for job_num,val in BACKGROUND_JOBS.items():
-                    print(f"[{job_num}]+  Running                 {val[1]} &")
+                list_keys = list(BACKGROUND_JOBS.keys())
+                prev_job,curr_job=list_keys[-2],list_keys[-1]
 
+                for job_num,val in BACKGROUND_JOBS.items():
+                    if job_num==curr_job:
+                        print(f"[{job_num}]+  Running                 {val[1]} &")
+                    elif job_num==prev_job:
+                        print(f"[{job_num}]-  Running                 {val[1]} &")
+                    else:
+                        print(f"[{job_num}]   Running                 {val[1]} &")
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
             # finding the command in the PATH directories
