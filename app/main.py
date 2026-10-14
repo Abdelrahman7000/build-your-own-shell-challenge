@@ -92,7 +92,8 @@ def main():
         elif command=='jobs':
             if BACKGROUND_JOBS:
                 list_keys = list(BACKGROUND_JOBS.keys())
-                prev_job,curr_job=list_keys[-2],list_keys[-1]
+                curr_job=list_keys[-1]
+                prev_job=list_keys[-2] if len(list_keys)>1 else -1
 
                 for job_num,val in BACKGROUND_JOBS.items():
                     if job_num==curr_job:
