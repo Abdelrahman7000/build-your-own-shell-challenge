@@ -105,7 +105,7 @@ def main():
                         print(f"[{job_num}]{sign}  Done                 {job_command}  ")
                         completed_jobs.append(job_num) # Adding the completed job number to the list of completed jobs to be removed from BACKGROUND_JOBS later
                         continue
-                    
+
                     # if the background job is still running, we will print its status as "Running"
                     print(f"[{job_num}]{sign}  Running                 {job_command}  ") # & is optional
 
