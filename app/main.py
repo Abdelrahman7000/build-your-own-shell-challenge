@@ -179,8 +179,10 @@ def main():
 
                 elif '|' in args:
                     print(args)
+                    combined_command = ' '.join(args)
+                    print(combined_command)
 
-                    
+
                 #executing the command without output redirection
                 else:
                     subprocess.run(
