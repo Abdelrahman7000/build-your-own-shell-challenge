@@ -180,7 +180,7 @@ def main():
                 elif '|' in args:
                     print(args)
                     combined_command = ' '.join(args)
-                    print(combined_command)
+                    print(combined_command.spli('|'))
 
 
                 #executing the command without output redirection
