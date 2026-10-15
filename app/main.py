@@ -11,6 +11,32 @@ from app.shell_utils.autocompleter import completer, update_auto_complete_comman
 BUILTINS_COMMANDS= {"exit", "echo", "type","pwd","cd","complete","jobs"}
 BACKGROUND_JOBS={}
 
+
+def check_background_jobs(show_running=False):
+    if not BACKGROUND_JOBS:
+        return
+    list_keys = list(BACKGROUND_JOBS.keys())
+    curr_job=list_keys[-1]
+    prev_job=list_keys[-2] if len(list_keys)>1 else -1
+    completed_jobs=[]
+
+    for job_num,val in BACKGROUND_JOBS.items():
+
+        sign='+' if job_num==curr_job else '-' if job_num==prev_job else ' '
+        _,job_command,proc = val
+        
+        if proc.poll() is not None: # checking if the background job is still running or has completed
+            print(f"[{job_num}]{sign}  Done                 {job_command}  ")
+            completed_jobs.append(job_num) # Adding the completed job number to the list of completed jobs to be removed from BACKGROUND_JOBS later
+            continue
+        elif show_running:
+            # if the background job is still running, we will print its status as "Running"
+            print(f"[{job_num}]{sign}  Running                 {job_command}  ") # & is optional
+
+    for job in completed_jobs: # Removing the completed jobs from the BACKGROUND_JOBS dictionary
+        BACKGROUND_JOBS.pop(job,None)
+
+
 def main():
     # Update the auto-complete commands list with executables from the PATH directories
     update_auto_complete_commands()
@@ -90,27 +116,28 @@ def main():
                     print(f'complete: {target_command}: no completion specification')
         
         elif command=='jobs':
-            if BACKGROUND_JOBS:
-                list_keys = list(BACKGROUND_JOBS.keys())
-                curr_job=list_keys[-1]
-                prev_job=list_keys[-2] if len(list_keys)>1 else -1
-                completed_jobs=[]
+            check_background_jobs(True)
+            # if BACKGROUND_JOBS:
+            #     list_keys = list(BACKGROUND_JOBS.keys())
+            #     curr_job=list_keys[-1]
+            #     prev_job=list_keys[-2] if len(list_keys)>1 else -1
+            #     completed_jobs=[]
 
-                for job_num,val in BACKGROUND_JOBS.items():
+            #     for job_num,val in BACKGROUND_JOBS.items():
 
-                    sign='+' if job_num==curr_job else '-' if job_num==prev_job else ' '
-                    _,job_command,proc = val
+            #         sign='+' if job_num==curr_job else '-' if job_num==prev_job else ' '
+            #         _,job_command,proc = val
                     
-                    if proc.poll() is not None: # checking if the background job is still running or has completed
-                        print(f"[{job_num}]{sign}  Done                 {job_command}  ")
-                        completed_jobs.append(job_num) # Adding the completed job number to the list of completed jobs to be removed from BACKGROUND_JOBS later
-                        continue
+            #         if proc.poll() is not None: # checking if the background job is still running or has completed
+            #             print(f"[{job_num}]{sign}  Done                 {job_command}  ")
+            #             completed_jobs.append(job_num) # Adding the completed job number to the list of completed jobs to be removed from BACKGROUND_JOBS later
+            #             continue
 
-                    # if the background job is still running, we will print its status as "Running"
-                    print(f"[{job_num}]{sign}  Running                 {job_command}  ") # & is optional
+            #         # if the background job is still running, we will print its status as "Running"
+            #         print(f"[{job_num}]{sign}  Running                 {job_command}  ") # & is optional
 
-                for job in completed_jobs: # Removing the completed jobs from the BACKGROUND_JOBS dictionary
-                    BACKGROUND_JOBS.pop(job,None)
+            #     for job in completed_jobs: # Removing the completed jobs from the BACKGROUND_JOBS dictionary
+            #         BACKGROUND_JOBS.pop(job,None)
                     
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
@@ -179,20 +206,21 @@ def main():
                 output=f"{user_input}: not found"
                 write_stderr(output, redirect_symbol, output_file)
 
-        if BACKGROUND_JOBS:
-            list_keys = list(BACKGROUND_JOBS.keys())
-            curr_job=list_keys[-1]
-            prev_job=list_keys[-2] if len(list_keys)>1 else -1
-            completed_jobs=[]
-            for job_num,val in BACKGROUND_JOBS.items():
-                sign='+' if job_num==curr_job else '-' if job_num==prev_job else ' '
-                _,job_command,proc = val
-                if proc.poll() is not None: # checking if the background job is still running or has completed
-                    print(f"[{job_num}]{sign}  Done                 {job_command}  ")
-                    completed_jobs.append(job_num) # Adding the completed job number to the list of completed jobs to be removed from BACKGROUND_JOBS later
+        check_background_jobs()
+        # if BACKGROUND_JOBS:
+        #     list_keys = list(BACKGROUND_JOBS.keys())
+        #     curr_job=list_keys[-1]
+        #     prev_job=list_keys[-2] if len(list_keys)>1 else -1
+        #     completed_jobs=[]
+        #     for job_num,val in BACKGROUND_JOBS.items():
+        #         sign='+' if job_num==curr_job else '-' if job_num==prev_job else ' '
+        #         _,job_command,proc = val
+        #         if proc.poll() is not None: # checking if the background job is still running or has completed
+        #             print(f"[{job_num}]{sign}  Done                 {job_command}  ")
+        #             completed_jobs.append(job_num) # Adding the completed job number to the list of completed jobs to be removed from BACKGROUND_JOBS later
 
-            for job in completed_jobs: # Removing the completed jobs from the BACKGROUND_JOBS dictionary
-                BACKGROUND_JOBS.pop(job,None)
+        #     for job in completed_jobs: # Removing the completed jobs from the BACKGROUND_JOBS dictionary
+        #         BACKGROUND_JOBS.pop(job,None)
 
 
 
