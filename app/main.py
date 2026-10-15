@@ -100,10 +100,10 @@ def main():
 
                     sign='+' if job_num==curr_job else '-' if job_num==prev_job else ' '
                     if val[2].poll() is not None:
-                        print(f"[{job_num}]{sign}  Done                 {val[1]} &")
+                        print(f"[{job_num}]{sign}  Done                 {val[1]}  ")
                         completed_jobs.append(job_num)
 
-                    print(f"[{job_num}]{sign}  Running                 {val[1]} &")
+                    print(f"[{job_num}]{sign}  Running                 {val[1]}  ") # & is optional
 
                 for job in completed_jobs:
                     BACKGROUND_JOBS.pop(job,None)
