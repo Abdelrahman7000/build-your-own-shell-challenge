@@ -94,16 +94,19 @@ def main():
                 list_keys = list(BACKGROUND_JOBS.keys())
                 curr_job=list_keys[-1]
                 prev_job=list_keys[-2] if len(list_keys)>1 else -1
+                completed_jobs=[]
 
                 for job_num,val in BACKGROUND_JOBS.items():
 
                     sign='+' if job_num==curr_job else '-' if job_num==prev_job else ' '
                     if val[2].poll() is not None:
                         print(f"[{job_num}]{sign}  Done                 {val[1]} &")
-                        BACKGROUND_JOBS.pop(job_num,None)
+                        completed_jobs.append(job_num)
 
                     print(f"[{job_num}]{sign}  Running                 {val[1]} &")
 
+                for job in completed_jobs:
+                    BACKGROUND_JOBS.pop(job,None)
                     # if job_num==curr_job:
                     #     print(f"[{job_num}]+  Running                 {val[1]} &") # & is optional 
                     # elif job_num==prev_job:
