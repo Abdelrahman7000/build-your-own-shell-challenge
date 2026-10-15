@@ -181,6 +181,7 @@ def main():
                     print(args)
                     combined_command = ' '.join(args)
                     command_stages=combined_command.split('|')
+                    print(command_stages[0].strip().split(' '))
                     # first = subprocess.Popen(
                     #         command_stages[0],
                     #         stdout=subprocess.PIPE,
