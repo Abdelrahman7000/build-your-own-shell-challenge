@@ -174,12 +174,14 @@ def main():
                     else:
                         next_job=1
             
-                    BACKGROUND_JOBS[next_job]=[child_process_id,' '.join(args),proc]#[0]child_process_id,[1]args,[2]proc  #child_process_id
+                    BACKGROUND_JOBS[next_job]=[child_process_id,' '.join(args),proc] # [0]child_process_id , [1]args , [2]proc 
                     print(f"[{next_job}] {child_process_id}")
 
-                # elif '|' in args:
-                #     print(args)
-                # executing the command without output redirection
+                elif '|' in args:
+                    print(args)
+
+                    
+                #executing the command without output redirection
                 else:
                     subprocess.run(
                             args,
