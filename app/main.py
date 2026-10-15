@@ -96,12 +96,15 @@ def main():
                 prev_job=list_keys[-2] if len(list_keys)>1 else -1
 
                 for job_num,val in BACKGROUND_JOBS.items():
-                    if job_num==curr_job:
-                        print(f"[{job_num}]+  Running                 {val[1]} &") # & is optional 
-                    elif job_num==prev_job:
-                        print(f"[{job_num}]-  Running                 {val[1]} &") # & is optional
-                    else:
-                        print(f"[{job_num}]   Running                 {val[1]} &") # & is optional
+
+                    sign='+' if job_num==curr_job else '-' if job_num==prev_job else ' '
+                    print(f"[{job_num}]{sign}  Running                 {val[1]} &")
+                    # if job_num==curr_job:
+                    #     print(f"[{job_num}]+  Running                 {val[1]} &") # & is optional 
+                    # elif job_num==prev_job:
+                    #     print(f"[{job_num}]-  Running                 {val[1]} &") # & is optional
+                    # else:
+                    #     print(f"[{job_num}]   Running                 {val[1]} &") # & is optional
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
             # finding the command in the PATH directories
