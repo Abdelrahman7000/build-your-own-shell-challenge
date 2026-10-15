@@ -102,6 +102,7 @@ def main():
                     if val[2].poll() is not None:
                         print(f"[{job_num}]{sign}  Done                 {val[1]}  ")
                         completed_jobs.append(job_num)
+                        continue
 
                     print(f"[{job_num}]{sign}  Running                 {val[1]}  ") # & is optional
 
