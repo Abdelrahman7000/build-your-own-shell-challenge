@@ -97,11 +97,11 @@ def main():
 
                 for job_num,val in BACKGROUND_JOBS.items():
                     if job_num==curr_job:
-                        print(f"[{job_num}]+  Running                 {val[1]} &")
+                        print(f"[{job_num}]+  Running                 {val[1]} &") # & is optional 
                     elif job_num==prev_job:
-                        print(f"[{job_num}]-  Running                 {val[1]} &")
+                        print(f"[{job_num}]-  Running                 {val[1]} &") # & is optional
                     else:
-                        print(f"[{job_num}]   Running                 {val[1]} &")
+                        print(f"[{job_num}]   Running                 {val[1]} &") # & is optional
         # executing the command if it is not a built-in command (external command/program) or invalid command
         else:
             # finding the command in the PATH directories
@@ -153,7 +153,7 @@ def main():
                     else:
                         next_job=1
             
-                    BACKGROUND_JOBS[next_job]=[child_process_id,' '.join(args)]#child_process_id
+                    BACKGROUND_JOBS[next_job]=[child_process_id,' '.join(args),proc]#[0]child_process_id,[1]args,[2]proc  #child_process_id
                     print(f"[{next_job}] {child_process_id}")
 
                 # executing the command without output redirection
