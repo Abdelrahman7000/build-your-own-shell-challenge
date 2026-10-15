@@ -13,6 +13,11 @@ BACKGROUND_JOBS={}
 
 
 def check_background_jobs(show_running=False):
+    '''
+    Args:
+        show_running (bool): If True, display the status of running background jobs. Default is False.
+    '''
+    
     if not BACKGROUND_JOBS:
         return
     list_keys = list(BACKGROUND_JOBS.keys())
