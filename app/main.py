@@ -180,7 +180,23 @@ def main():
                 elif '|' in args:
                     print(args)
                     combined_command = ' '.join(args)
-                    print(combined_command.split('|'))
+                    command_stages=combined_command.split('|')
+                    # first = subprocess.Popen(
+                    #         command_stages[0],
+                    #         stdout=subprocess.PIPE,
+                    #     )
+                    for stage in command_stages[1:]:
+                        print(stage.strip().split(' '))
+                        # if stage == len(command_stages) - 1:
+                        #     subprocess.run(
+                        #             stage.strip().split(' '),
+                        #             executable=command_path
+                        #     )
+                        # else:  
+                        #     next_stage = subprocess.Popen(
+                        #         stage,
+                        #         stdout=subprocess.PIPE,
+                        #     )
 
 
                 #executing the command without output redirection
