@@ -179,6 +179,23 @@ def main():
                 output=f"{user_input}: not found"
                 write_stderr(output, redirect_symbol, output_file)
 
+        if BACKGROUND_JOBS:
+            list_keys = list(BACKGROUND_JOBS.keys())
+            curr_job=list_keys[-1]
+            prev_job=list_keys[-2] if len(list_keys)>1 else -1
+            completed_jobs=[]
+            for job_num,val in BACKGROUND_JOBS.items():
+                sign='+' if job_num==curr_job else '-' if job_num==prev_job else ' '
+                _,job_command,proc = val
+                if proc.poll() is not None: # checking if the background job is still running or has completed
+                    print(f"[{job_num}]{sign}  Done                 {job_command}  ")
+                    completed_jobs.append(job_num) # Adding the completed job number to the list of completed jobs to be removed from BACKGROUND_JOBS later
+
+            for job in completed_jobs: # Removing the completed jobs from the BACKGROUND_JOBS dictionary
+                BACKGROUND_JOBS.pop(job,None)
+
+
+
 
 
 if __name__ == "__main__":
