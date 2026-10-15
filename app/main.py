@@ -98,7 +98,12 @@ def main():
                 for job_num,val in BACKGROUND_JOBS.items():
 
                     sign='+' if job_num==curr_job else '-' if job_num==prev_job else ' '
+                    if val[2].poll() is not None:
+                        print(f"[{job_num}]{sign}  Done                 {val[1]} &")
+                        BACKGROUND_JOBS.pop(job_num,None)
+
                     print(f"[{job_num}]{sign}  Running                 {val[1]} &")
+
                     # if job_num==curr_job:
                     #     print(f"[{job_num}]+  Running                 {val[1]} &") # & is optional 
                     # elif job_num==prev_job:
