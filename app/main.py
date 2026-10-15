@@ -100,14 +100,16 @@ def main():
 
                     sign='+' if job_num==curr_job else '-' if job_num==prev_job else ' '
                     _,job_command,proc = val
-                    if proc.poll() is not None:
+                    
+                    if proc.poll() is not None: # checking if the background job is still running or has completed
                         print(f"[{job_num}]{sign}  Done                 {job_command}  ")
-                        completed_jobs.append(job_num)
+                        completed_jobs.append(job_num) # Adding the completed job number to the list of completed jobs to be removed from BACKGROUND_JOBS later
                         continue
-
+                    
+                    # if the background job is still running, we will print its status as "Running"
                     print(f"[{job_num}]{sign}  Running                 {job_command}  ") # & is optional
 
-                for job in completed_jobs:
+                for job in completed_jobs: # Removing the completed jobs from the BACKGROUND_JOBS dictionary
                     BACKGROUND_JOBS.pop(job,None)
                     
         # executing the command if it is not a built-in command (external command/program) or invalid command
