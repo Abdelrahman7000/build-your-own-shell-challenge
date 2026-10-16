@@ -181,23 +181,21 @@ def main():
                     print(args)
                     combined_command = ' '.join(args)
                     command_stages=combined_command.split('|')
-                    print(command_stages[0].strip().split(' '))
-                    # first = subprocess.Popen(
-                    #         command_stages[0],
+                    print(command_stages)
+                    # next_stage = subprocess.Popen(
+                    #         command_stages[0].strip().split(' '),
                     #         stdout=subprocess.PIPE,
                     #     )
-                    for stage in command_stages[1:]:
-                        print(stage.strip().split(' '))
-                        # if stage == len(command_stages) - 1:
-                        #     subprocess.run(
-                        #             stage.strip().split(' '),
-                        #             executable=command_path
-                        #     )
-                        # else:  
-                        #     next_stage = subprocess.Popen(
-                        #         stage,
-                        #         stdout=subprocess.PIPE,
-                        #     )
+                    # for stage in command_stages[1:]:
+                    #     if stage == len(command_stages) - 1:
+                    #         subprocess.Popen(
+                    #                 stage.strip().split(' '),
+                    #         )
+                    #     else:  
+                    #         next_stage = subprocess.Popen(
+                    #             stage.strip().split(' '),
+                    #             stdin=next_stage.stdout,
+                    #         )
 
 
                 #executing the command without output redirection
