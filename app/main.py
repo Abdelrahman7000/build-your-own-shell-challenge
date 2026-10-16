@@ -178,24 +178,33 @@ def main():
                     print(f"[{next_job}] {child_process_id}")
 
                 elif '|' in args:
-                    print(args)
                     combined_command = ' '.join(args)
                     command_stages=combined_command.split('|')
-                    print(command_stages)
-                    # next_stage = subprocess.Popen(
-                    #         command_stages[0].strip().split(' '),
-                    #         stdout=subprocess.PIPE,
-                    #     )
-                    # for stage in command_stages[1:]:
-                    #     if stage == len(command_stages) - 1:
-                    #         subprocess.Popen(
-                    #                 stage.strip().split(' '),
-                    #         )
-                    #     else:  
-                    #         next_stage = subprocess.Popen(
-                    #             stage.strip().split(' '),
-                    #             stdin=next_stage.stdout,
-                    #         )
+                    
+                    process=None
+                    for i in range(0,len(command_stages)):    #command_stages[1:]:
+                        if process is None:
+                            process = subprocess.Popen(
+                                    command_stages[i].strip().split(' '),
+                                    stdout=subprocess.PIPE,
+                                )
+                        elif i == len(command_stages) - 1:
+                            subprocess.Popen(
+                                    command_stages[i].strip().split(' '),
+                                    stdin=process.stdout
+                            )
+                        
+                        else:  
+                            next_process = subprocess.Popen(
+                                command_stages[i].strip().split(' '),
+                                stdin=process.stdout,
+                                stdout=subprocess.PIPE
+                            )
+                            process.stdout.close()
+                            process=next_process
+
+                    # output,_=process.communicate()
+                    # print(output.decode)
 
 
                 #executing the command without output redirection
@@ -220,3 +229,15 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
+# elif i == len(command_stages) - 1:
+#                             subprocess.Popen(
+#                                     command_stages[i].strip().split(' '),
+#                                     stdin=pi.stdout
+#                             )
