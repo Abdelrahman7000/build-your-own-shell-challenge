@@ -192,7 +192,7 @@ def main():
                             subprocess.Popen(
                                     command_stages[i].strip().split(' '),
                                     stdin=process.stdout
-                            )
+                            ).wait()
                         
                         else:  
                             next_process = subprocess.Popen(
