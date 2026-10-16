@@ -182,8 +182,10 @@ def main():
                     pipeline_commands=pipeline_command.split('|')
                     
                     process=None
-                    for i in range(0,len(pipeline_commands)):    #command_stages[1:]:
+                    for i in range(0,len(pipeline_commands)): # Loop over each command in the pipeline
+                        # Split the command into a list of arguments for subprocess.Popen
                         current_stage=pipeline_commands[i].strip().split(' ')
+
                         if process is None:
                             # First command in the pipeline
                             process = subprocess.Popen(
@@ -198,12 +200,13 @@ def main():
                             ).wait()
                         
                         else:  
-                            # Inner commands
+                            # Intermediate command in the pipeline
                             next_process = subprocess.Popen(
                                 current_stage,
                                 stdin=process.stdout,
                                 stdout=subprocess.PIPE
                             )
+                            
                             process.stdout.close()
                             process=next_process
 
@@ -237,8 +240,3 @@ if __name__ == "__main__":
 
 
 
-# elif i == len(command_stages) - 1:
-#                             subprocess.Popen(
-#                                     command_stages[i].strip().split(' '),
-#                                     stdin=pi.stdout
-#                             )
