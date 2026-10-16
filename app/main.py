@@ -178,33 +178,34 @@ def main():
                     print(f"[{next_job}] {child_process_id}")
 
                 elif '|' in args:
-                    combined_command = ' '.join(args)
-                    command_stages=combined_command.split('|')
+                    pipeline_command = ' '.join(args)
+                    pipeline_commands=pipeline_command.split('|')
                     
                     process=None
-                    for i in range(0,len(command_stages)):    #command_stages[1:]:
+                    for i in range(0,len(pipeline_commands)):    #command_stages[1:]:
+                        current_stage=pipeline_commands[i].strip().split(' ')
                         if process is None:
+                            # First command in the pipeline
                             process = subprocess.Popen(
-                                    command_stages[i].strip().split(' '),
+                                    current_stage,
                                     stdout=subprocess.PIPE,
                                 )
-                        elif i == len(command_stages) - 1:
+                        elif i == len(pipeline_commands) - 1:
+                            # Last command in the pipeline
                             subprocess.Popen(
-                                    command_stages[i].strip().split(' '),
+                                    current_stage,
                                     stdin=process.stdout
                             ).wait()
                         
                         else:  
+                            # Inner commands
                             next_process = subprocess.Popen(
-                                command_stages[i].strip().split(' '),
+                                current_stage,
                                 stdin=process.stdout,
                                 stdout=subprocess.PIPE
                             )
                             process.stdout.close()
                             process=next_process
-
-                    # output,_=process.communicate()
-                    # print(output.decode)
 
 
                 #executing the command without output redirection
